@@ -1,0 +1,14 @@
+{
+  "name": "mta-alerts-bot",
+  "type": "module",
+  "version": "1.0.0",
+  "author": "Ryan Skinner",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@atproto/api": "^0.3.8",
+    "@supabase/supabase-js": "^2.22.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3"
+  }
+}
