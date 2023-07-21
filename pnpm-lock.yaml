@@ -1,103 +1,108 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@atproto/api':
-    specifier: ^0.3.8
-    version: 0.3.8
+    specifier: ^0.4.3
+    version: 0.4.3
   '@supabase/supabase-js':
-    specifier: ^2.22.0
-    version: 2.22.0
+    specifier: ^2.26.0
+    version: 2.26.0
   axios:
     specifier: ^1.4.0
     version: 1.4.0
   dotenv:
-    specifier: ^16.0.3
-    version: 16.0.3
+    specifier: ^16.3.1
+    version: 16.3.1
 
 packages:
 
-  /@atproto/api@0.3.8:
-    resolution: {integrity: sha512-7qaIZGEP5J9FW4z8bXezzAmLRzHSXXHo6bWP9Jyu5MLp8tYt9vG6yR2N0QA7GvO0xSYqP87Q5vblPjYXGqtDKg==}
+  /@atproto/api@0.4.3:
+    resolution: {integrity: sha512-8LdREwmoA58YQDrLS0rohd7cHokhoiXfyYEeNtNlkdO0w/2QpkUCQ1PgPBP2kIRM9PhOEkKp7W3Sn8Te9Qq8jg==}
     dependencies:
-      '@atproto/common-web': 0.1.0
-      '@atproto/uri': 0.0.2
-      '@atproto/xrpc': 0.1.0
-      tlds: 1.238.0
+      '@atproto/common-web': 0.2.0
+      '@atproto/uri': 0.1.0
+      '@atproto/xrpc': 0.2.0
+      tlds: 1.240.0
       typed-emitter: 2.1.0
     dev: false
 
-  /@atproto/common-web@0.1.0:
-    resolution: {integrity: sha512-qD6xF60hvH+cP++fk/mt+0S9cxs94KsK+rNWypNlgnlp7r9By4ltXwtDSR/DNTA8mwDeularUno4VbTd2IWIzA==}
+  /@atproto/common-web@0.2.0:
+    resolution: {integrity: sha512-ugKrT8CWf6PDsZ29VOhOCs5K4z9BAFIV7SxPXA+MHC7pINqQ+wyjIq+DtUI8kmUSce1dTqc/lMN1akf/W5whVQ==}
     dependencies:
+      graphemer: 1.4.0
       multiformats: 9.9.0
       uint8arrays: 3.0.0
       zod: 3.21.4
     dev: false
 
-  /@atproto/identifier@0.1.0:
-    resolution: {integrity: sha512-3LV7+4E6S0k8Rru7NBkyDF6Zf6NHVUXVS9d4l9fiXWMC49ghZMjq0vPmz80xjG1rRuFdJFbpRf4ApFciGxLIyQ==}
+  /@atproto/identifier@0.2.0:
+    resolution: {integrity: sha512-5zzlozQEWPMDzyl0D0zSpuNbnc1gtBg/Ov5wbcfieZzbjxgJ/eJHXEBlmxNE1uN91QqpGX5FCEE36jX8tKl9Ag==}
     dependencies:
-      '@atproto/common-web': 0.1.0
+      '@atproto/common-web': 0.2.0
     dev: false
 
-  /@atproto/lexicon@0.1.0:
-    resolution: {integrity: sha512-Iy+gV9w42xLhrZrmcbZh7VFoHjXuzWvecGHIfz44owNjjv7aE/d2P5BbOX/XicSkmQ8Qkpg0BqwYDD1XBVS+DQ==}
+  /@atproto/lexicon@0.2.0:
+    resolution: {integrity: sha512-0OpLZ4o4pbRj2e19h2fO69781wPmL0S8WJaXey3y9FLjV19lj18IEbnlE/OQG8qZNDyGmgezs00L/o7qNCJorw==}
     dependencies:
-      '@atproto/common-web': 0.1.0
-      '@atproto/identifier': 0.1.0
-      '@atproto/nsid': 0.0.1
-      '@atproto/uri': 0.0.2
+      '@atproto/common-web': 0.2.0
+      '@atproto/identifier': 0.2.0
+      '@atproto/nsid': 0.1.0
+      '@atproto/uri': 0.1.0
       iso-datestring-validator: 2.2.2
       multiformats: 9.9.0
       zod: 3.21.4
     dev: false
 
-  /@atproto/nsid@0.0.1:
-    resolution: {integrity: sha512-t5M6/CzWBVYoBbIvfKDpqPj/+ZmyoK9ydZSStcTXosJ27XXwOPhz0VDUGKK2SM9G5Y7TPes8S5KTAU0UdVYFCw==}
+  /@atproto/nsid@0.1.0:
+    resolution: {integrity: sha512-Pp+tHrGtPVHUi3ainR5yPgHbuqxrZrT0vAMbsNonL+NpWRB82szZSWNThPAgUz4v73Fav6y0WcTIXHzRv2D2Yg==}
     dev: false
 
-  /@atproto/uri@0.0.2:
-    resolution: {integrity: sha512-/6otLZF7BLpT9suSdHuXLbL12nINcWPsLmcOI+dctqovWUjH+XIRVNXDQgBYSrPVetxMiknuEwWelmnA33AEXg==}
+  /@atproto/uri@0.1.0:
+    resolution: {integrity: sha512-ZaiOYHsakB98HrXfqiF6m7xgahSn9yXxKnPm0EaN0Breax6jtTl+lblWtduonAmyWVLJJAQJbvF+ud0i/3+wBw==}
     dependencies:
-      '@atproto/identifier': 0.1.0
-      '@atproto/nsid': 0.0.1
+      '@atproto/identifier': 0.2.0
+      '@atproto/nsid': 0.1.0
     dev: false
 
-  /@atproto/xrpc@0.1.0:
-    resolution: {integrity: sha512-LhBeZkQwPezjEtricGYnG62udFglOqlnmMSS0KyWgEAPi4KMp4H2F4jNoXcf5NPtZ9S4N4hJaErHX4PJYv2lfA==}
+  /@atproto/xrpc@0.2.0:
+    resolution: {integrity: sha512-xsyJDPG0aVfNmBvjvVkjD4YdETCkOC/xhW+4BIzKucKIH8YftcE78ANZg5rdfXjIAnsQNPP2nDf13EKcfFHpKw==}
     dependencies:
-      '@atproto/lexicon': 0.1.0
+      '@atproto/lexicon': 0.2.0
       zod: 3.21.4
     dev: false
 
-  /@supabase/functions-js@2.1.1:
-    resolution: {integrity: sha512-bIR1Puae6W+1/MzPfYBWOG/SCWGo4B5CB7c0ZZksvliNEAzhxNBJ0UFKYINcGdGtxG8ZC+1xr3utWpNZNwnoRw==}
+  /@supabase/functions-js@2.1.2:
+    resolution: {integrity: sha512-QCR6pwJs9exCl37bmpMisUd6mf+0SUBJ6mUpiAjEkSJ/+xW8TCuO14bvkWHADd5hElJK9MxNlMQXxSA4DRz9nQ==}
     dependencies:
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@supabase/gotrue-js@2.27.2:
-    resolution: {integrity: sha512-VVD3M//E7A/fuJsvXVfu7Sv8AuxMHL4owRtp6GoRNxtedHJCngcZzZpIWuQUjbwnNmrfvUQEDuxqNZQVqFbJQw==}
+  /@supabase/gotrue-js@2.45.0:
+    resolution: {integrity: sha512-ctHQqk9foMHvU9pyGXbSbyalmyJ4dkpK/72jIytH5DbXxawqPIjUmJ+Ww9yyJLFP6wCsjPdeYBI+NW070WESvg==}
     dependencies:
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@supabase/postgrest-js@1.6.1:
-    resolution: {integrity: sha512-WDBUPOCOwcZonaCwEodwdA8hwWYOiXroDF9vWGxZxKAnuSVE2Ieci/kvhR4EsWvgGST2h90LRowgO+msXe8+fA==}
+  /@supabase/postgrest-js@1.7.2:
+    resolution: {integrity: sha512-GK80JpRq8l6Qll85erICypAfQCied8tdlXfsDN14W844HqXCSOisk8AaE01DAwGJanieaoN5fuqhzA2yKxDvEQ==}
     dependencies:
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@supabase/realtime-js@2.7.2:
-    resolution: {integrity: sha512-Fi6xAl5PUkqnjl3wo4rdcQIbMG3+yTRX1aUZe/yfvTG84RMvmCXJ1yN6MmafVLeZpU1xkaz5Vx4L0tnHcLiy6w==}
+  /@supabase/realtime-js@2.7.3:
+    resolution: {integrity: sha512-c7TzL81sx2kqyxsxcDduJcHL9KJdCOoKimGP6lQSqiZKX42ATlBZpWbyy9KFGFBjAP4nyopMf5JhPi2ZH9jyNw==}
     dependencies:
-      '@types/phoenix': 1.5.6
+      '@types/phoenix': 1.6.0
       '@types/websocket': 1.0.5
       websocket: 1.0.34
     transitivePeerDependencies:
@@ -107,37 +112,37 @@ packages:
   /@supabase/storage-js@2.5.1:
     resolution: {integrity: sha512-nkR0fQA9ScAtIKA3vNoPEqbZv1k5B5HVRYEvRWdlP6mUpFphM9TwPL2jZ/ztNGMTG5xT6SrHr+H7Ykz8qzbhjw==}
     dependencies:
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@supabase/supabase-js@2.22.0:
-    resolution: {integrity: sha512-omkgSWL1HwnpXZZy+yshFLx/qqxwk9kx9jbRM6IHNEylKrH/sz6JX7rGyIOmN9niDxMRjsCu1nwuBhD6IiF2xg==}
+  /@supabase/supabase-js@2.26.0:
+    resolution: {integrity: sha512-RXmTPTobaYAwkSobadHZmEVLmzX3SGrtRZIGfLWnLv92VzBRrjuXn0a+bJqKl50GUzsyqPA+j5pod7EwMkcH5A==}
     dependencies:
-      '@supabase/functions-js': 2.1.1
-      '@supabase/gotrue-js': 2.27.2
-      '@supabase/postgrest-js': 1.6.1
-      '@supabase/realtime-js': 2.7.2
+      '@supabase/functions-js': 2.1.2
+      '@supabase/gotrue-js': 2.45.0
+      '@supabase/postgrest-js': 1.7.2
+      '@supabase/realtime-js': 2.7.3
       '@supabase/storage-js': 2.5.1
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: false
 
-  /@types/node@20.2.3:
-    resolution: {integrity: sha512-pg9d0yC4rVNWQzX8U7xb4olIOFuuVL9za3bzMT2pu2SU0SNEi66i2qrvhE2qt0HvkhuCaWJu7pLNOt/Pj8BIrw==}
+  /@types/node@20.4.2:
+    resolution: {integrity: sha512-Dd0BYtWgnWJKwO1jkmTrzofjK2QXXcai0dmtzvIBhcA+RsG5h8R3xlyta0kGOZRNfL9GuRtb1knmPEhQrePCEw==}
     dev: false
 
-  /@types/phoenix@1.5.6:
-    resolution: {integrity: sha512-e7jZ6I9uyRGsg7MNwQcarmBvRlbGb9DibbocE9crVnxqsy6C23RMxLWbJ2CQ3vgCW7taoL1L+F02EcjA6ld7XA==}
+  /@types/phoenix@1.6.0:
+    resolution: {integrity: sha512-qwfpsHmFuhAS/dVd4uBIraMxRd56vwBUYQGZ6GpXnFuM2XMRFJbIyruFKKlW2daQliuYZwe0qfn/UjFCDKic5g==}
     dev: false
 
   /@types/websocket@1.0.5:
     resolution: {integrity: sha512-NbsqiNX9CnEfC1Z0Vf4mE1SgAJ07JnRYcNex7AJ9zAVzmiGHmjKFEk7O4TJIsgv2B1sLEb6owKFZrACwdYngsQ==}
     dependencies:
-      '@types/node': 20.2.3
+      '@types/node': 20.4.2
     dev: false
 
   /asynckit@0.4.0:
@@ -169,10 +174,10 @@ packages:
       delayed-stream: 1.0.0
     dev: false
 
-  /cross-fetch@3.1.6:
-    resolution: {integrity: sha512-riRvo06crlE8HiqOwIpQhxwdOk4fOeR7FVM/wXoxchFEqMNUjvbs3bfo4OTgMEMHzppd4DxFBDbyySj8Cv781g==}
+  /cross-fetch@3.1.8:
+    resolution: {integrity: sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==}
     dependencies:
-      node-fetch: 2.6.11
+      node-fetch: 2.6.12
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -200,8 +205,8 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: false
 
-  /dotenv@16.0.3:
-    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -255,6 +260,10 @@ packages:
       mime-types: 2.1.35
     dev: false
 
+  /graphemer@1.4.0:
+    resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+    dev: false
+
   /is-typedarray@1.0.0:
     resolution: {integrity: sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==}
     dev: false
@@ -287,8 +296,8 @@ packages:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: false
 
-  /node-fetch@2.6.11:
-    resolution: {integrity: sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==}
+  /node-fetch@2.6.12:
+    resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
       encoding: ^0.1.0
@@ -312,12 +321,12 @@ packages:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     requiresBuild: true
     dependencies:
-      tslib: 2.5.2
+      tslib: 2.6.0
     dev: false
     optional: true
 
-  /tlds@1.238.0:
-    resolution: {integrity: sha512-lFPF9pZFhLrPodaJ0wt9QIN0l8jOxqmUezGZnm7BfkDSVd9q667oVIJukLVzhF+4oW7uDlrLlfJrL5yu9RWwew==}
+  /tlds@1.240.0:
+    resolution: {integrity: sha512-1OYJQenswGZSOdRw7Bql5Qu7uf75b+F3HFBXbqnG/ifHa0fev1XcG+3pJf3pA/KC6RtHQzfKgIf1vkMlMG7mtQ==}
     hasBin: true
     dev: false
 
@@ -325,8 +334,8 @@ packages:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
     dev: false
 
-  /tslib@2.5.2:
-    resolution: {integrity: sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==}
+  /tslib@2.6.0:
+    resolution: {integrity: sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==}
     dev: false
     optional: true
 
