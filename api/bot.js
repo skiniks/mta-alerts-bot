@@ -89,7 +89,6 @@ async function displayAlertInfo(alertItem) {
     if (!alert) return;
     const { active_period, header_text } = alert;
     if (!active_period || !header_text) return;
-
     const currentTime = Date.now();
     const isAlertActive = active_period.some(period => {
         const hasStarted = currentTime >= period.start * 1000;
@@ -97,10 +96,7 @@ async function displayAlertInfo(alertItem) {
         return hasStarted && hasNotEnded;
     });
     if (!isAlertActive) return;
-
-    const alertType = alert.transit_realtime?.mercury_alert?.alert_type;
-    const title = `${alertType}: ${header_text.translation[0]?.text}`;
-
+    const title = header_text.translation[0]?.text;
     if (!seenSkeet.includes(title)) {
         newSkeetFound = true;
         console.log('New skeet:', title);
@@ -111,7 +107,6 @@ async function displayAlertInfo(alertItem) {
         postSkeetToBsky(title); // Emoji will be added in the postSkeetToBsky function
     }
 }
-
 
 // Initialize and start the bot
 async function startBot() {
