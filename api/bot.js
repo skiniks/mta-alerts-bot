@@ -87,8 +87,23 @@ async function loginToBskyAgent() {
 async function displayAlertInfo(alertItem) {
     const { alert } = alertItem;
     if (!alert) return;
+
+    const excludedAlertTypes = [
+        "Planned - Part Suspended",
+        "Planned - Stations Skipped",
+        "Planned - Trains Rerouted",
+        "Planned - Local to Express",
+        "Planned - Express to Local"
+    ];
+
+    const alertType = alert.extension && alert.extension["transit_realtime.mercury_alert"] && alert.extension["transit_realtime.mercury_alert"].alert_type;
+
+    // Include "Delays" and "Part Suspended" and exclude the types from the excludedAlertTypes array
+    if (!alertType || !(alertType === "Delays" || alertType === "Part Suspended") || excludedAlertTypes.includes(alertType)) return;
+
     const { active_period, header_text } = alert;
     if (!active_period || !header_text) return;
+
     const currentTime = Date.now();
     const isAlertActive = active_period.some(period => {
         const hasStarted = currentTime >= period.start * 1000;
@@ -96,6 +111,7 @@ async function displayAlertInfo(alertItem) {
         return hasStarted && hasNotEnded;
     });
     if (!isAlertActive) return;
+
     const title = header_text.translation[0]?.text;
     if (!seenSkeet.includes(title)) {
         newSkeetFound = true;
