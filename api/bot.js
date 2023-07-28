@@ -96,7 +96,13 @@ async function displayAlertInfo(alertItem) {
         return hasStarted && hasNotEnded;
     });
     if (!isAlertActive) return;
-    const title = header_text.translation[0]?.text;
+
+    // Extract the alert type from the alert
+    const alertType = alert.transit_realtime.mercury_alert.alert_type;
+
+    // Append the alert type to the title
+    const title = `${header_text.translation[0]?.text} (Type: ${alertType})`;
+
     if (!seenSkeet.includes(title)) {
         newSkeetFound = true;
         console.log('New skeet:', title);
