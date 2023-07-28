@@ -98,8 +98,8 @@ async function displayAlertInfo(alertItem) {
 
     const alertType = alert.extension && alert.extension["transit_realtime.mercury_alert"] && alert.extension["transit_realtime.mercury_alert"].alert_type;
 
-    // Include "Delays" and "Part Suspended" and exclude the types from the excludedAlertTypes array
-    if (!alertType || !(alertType === "Delays" || alertType === "Part Suspended") || excludedAlertTypes.includes(alertType)) return;
+    // Check if alert type is either "Delays" or "Part Suspended" and also not in the excludedAlertTypes array
+    if (!alertType || !["Delays", "Part Suspended"].includes(alertType) || excludedAlertTypes.includes(alertType)) return;
 
     const { active_period, header_text } = alert;
     if (!active_period || !header_text) return;
