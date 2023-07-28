@@ -4,11 +4,9 @@
   "version": "1.0.0",
   "author": "Ryan Skinner",
   "license": "MIT",
-  "main": "index.js",
   "dependencies": {
     "@atproto/api": "^0.4.3",
-    "@supabase/supabase-js": "^2.26.0",
-    "axios": "^1.4.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2"
   }
 }
