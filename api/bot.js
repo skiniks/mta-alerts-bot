@@ -89,6 +89,13 @@ async function displayAlertInfo(alertItem) {
     if (!alert) return;
     const { active_period, header_text } = alert;
     if (!active_period || !header_text) return;
+
+    // Extract the alert type from the alert
+    const alertType = alert.transit_realtime.mercury_alert.alert_type;
+
+    // If the alert type is not "Delays", we skip this alert
+    if (alertType !== "Delays") return;
+
     const currentTime = Date.now();
     const isAlertActive = active_period.some(period => {
         const hasStarted = currentTime >= period.start * 1000;
@@ -96,9 +103,6 @@ async function displayAlertInfo(alertItem) {
         return hasStarted && hasNotEnded;
     });
     if (!isAlertActive) return;
-
-    // Extract the alert type from the alert
-    const alertType = alert.transit_realtime.mercury_alert.alert_type;
 
     // Append the alert type to the title
     const title = `${header_text.translation[0]?.text} (Type: ${alertType})`;
@@ -113,6 +117,7 @@ async function displayAlertInfo(alertItem) {
         postSkeetToBsky(title); // Emoji will be added in the postSkeetToBsky function
     }
 }
+
 
 // Initialize and start the bot
 async function startBot() {
