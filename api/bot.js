@@ -89,6 +89,7 @@ async function displayAlertInfo(alertItem) {
     if (!alert) return;
 
     const excludedAlertTypes = [
+        "No Midday Service",
         "Planned - Part Suspended",
         "Planned - Stations Skipped",
         "Planned - Trains Rerouted",
