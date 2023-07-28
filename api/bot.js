@@ -83,14 +83,15 @@ async function loginToBskyAgent() {
     }
 }
 
-// Process MTA alerts and decide if they're new and active
 async function displayAlertInfo(alertItem) {
     const { alert } = alertItem;
     if (!alert) return;
     const { active_period, header_text } = alert;
     if (!active_period || !header_text) return;
 
-    // Extract the alert type from the alert
+    // Ensure mercury_alert exists before reading alert_type from it
+    if (!alert.transit_realtime || !alert.transit_realtime.mercury_alert) return;
+
     const alertType = alert.transit_realtime.mercury_alert.alert_type;
 
     // If the alert type is not "Delays", we skip this alert
@@ -117,7 +118,6 @@ async function displayAlertInfo(alertItem) {
         postSkeetToBsky(title); // Emoji will be added in the postSkeetToBsky function
     }
 }
-
 
 // Initialize and start the bot
 async function startBot() {
