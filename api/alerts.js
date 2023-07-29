@@ -1,10 +1,12 @@
 import axios from 'axios'
 import bsky from '@atproto/api'
 import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv'
 
-if (process.env.NODE_ENV !== 'production')
-    dotenv.config()
+const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_KEY', 'MTA_API_KEY', 'MTA_API_URL', 'BSKY_USERNAME', 'BSKY_PASSWORD']
+requiredEnvVars.forEach((varName) => {
+    if (!process.env[varName])
+        throw new Error(`Missing required environment variable: ${varName}`)
+})
 
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
@@ -12,6 +14,9 @@ const API_KEY = process.env.MTA_API_KEY
 const ALERT_FEED_URL = process.env.MTA_API_URL
 const bskyUsername = process.env.BSKY_USERNAME
 const bskyPassword = process.env.BSKY_PASSWORD
+
+if (process.env.NODE_ENV !== 'production')
+    require('dotenv').config()
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
@@ -38,35 +43,28 @@ function formatAlertText(entity) {
     }
 }
 
-function isActiveAlert(activePeriods) {
-    const currentTime = Math.floor(Date.now() / 1000);
+function isValidAlert(entity, bufferTimestamp) {
+    const createdAt = entity.alert?.['transit_realtime.mercury_alert']?.created_at
 
-    return activePeriods.some(period => {
-        const hasStarted = currentTime >= period.start;
-        const hasNotEnded = !period.end || currentTime <= period.end;
-        return hasStarted && hasNotEnded;
-    });
+    if (!entity.alert || !entity.alert.header_text || !createdAt || entity.id.startsWith('lmm:planned_work'))
+        return false
+
+    return createdAt >= bufferTimestamp
 }
 
-function isValidAlert(entity) {
-    const hasValidId = entity.id && !entity.id.startsWith('lmm:planned_work');
-    const isActive = isActiveAlert(entity.alert.active_period);
-    return hasValidId && isActive;
-}
-
-async function isAlertDuplicate(alertId) {
+async function isAlertDuplicate(headerTranslation) {
     const { data, error } = await supabase
         .from('mta_alerts')
         .select('*')
-        .eq('alert_id', alertId)
-        .limit(1);
+        .eq('header_translation', headerTranslation)
+        .limit(1)
 
     if (error) {
-        console.error('Error checking for duplicate alert:', error);
-        return true;
+        console.error('Error checking for duplicate alert:', error)
+        return true
     }
 
-    return data.length > 0;
+    return data.length > 0
 }
 
 async function postAlertToBsky(formattedAlert) {
@@ -77,6 +75,8 @@ async function postAlertToBsky(formattedAlert) {
         createdAt: new Date().toISOString(),
         alertId: formattedAlert.id,
     })
+
+    // eslint-disable-next-line no-console
     console.log('New alert posted:', truncatedText)
 }
 
@@ -84,14 +84,14 @@ async function insertAlertToDb(formattedAlert) {
     const { error: insertError } = await supabase.from('mta_alerts').insert({
         alert_id: formattedAlert.id,
         header_translation: formattedAlert.headerTranslation,
-    }, { upsert: true });
+    })
 
     if (insertError) {
-        console.error('Error inserting or updating alert into Supabase:', insertError);
-        return false;
+        console.error('Error inserting alert into Supabase:', insertError)
+        return false
     }
 
-    return true;
+    return true
 }
 
 async function deleteOldAlerts() {
@@ -119,6 +119,7 @@ async function fetchAlerts() {
             return
         }
 
+        const bufferTimestamp = Math.floor(Date.now() / 1000) - (30 * 60)
         let foundNewAlert = false
 
         if (Array.isArray(data.entity)) {
@@ -127,8 +128,8 @@ async function fetchAlerts() {
                 if (!formattedAlert)
                     continue
 
-                if (isValidAlert(entity)) {
-                    const isDuplicate = await isAlertDuplicate(entity.id);
+                if (isValidAlert(entity, bufferTimestamp)) {
+                    const isDuplicate = await isAlertDuplicate(formattedAlert.headerTranslation)
                     if (!isDuplicate) {
                         await postAlertToBsky(formattedAlert)
                         const inserted = await insertAlertToDb(formattedAlert)
@@ -141,8 +142,8 @@ async function fetchAlerts() {
         else {
             console.warn('data.entity is not an array:', data.entity)
         }
-
         if (!foundNewAlert)
+            // eslint-disable-next-line no-console
             console.log('No new alerts')
     }
     catch (error) {
