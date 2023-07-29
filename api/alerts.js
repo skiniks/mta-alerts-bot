@@ -2,12 +2,6 @@ import axios from 'axios'
 import bsky from '@atproto/api'
 import { createClient } from '@supabase/supabase-js'
 
-const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_KEY', 'MTA_API_KEY', 'MTA_API_URL', 'BSKY_USERNAME', 'BSKY_PASSWORD']
-requiredEnvVars.forEach((varName) => {
-    if (!process.env[varName])
-        throw new Error(`Missing required environment variable: ${varName}`)
-})
-
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
 const API_KEY = process.env.MTA_API_KEY
@@ -43,13 +37,25 @@ function formatAlertText(entity) {
     }
 }
 
-function isValidAlert(entity, bufferTimestamp) {
-    const createdAt = entity.alert?.['transit_realtime.mercury_alert']?.created_at
+function isActiveAlert(activePeriods) {
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in Unix timestamp format
+
+    return activePeriods.some(period => {
+        const hasStarted = currentTime >= period.start;
+        const hasNotEnded = !period.end || currentTime <= period.end;
+        return hasStarted && hasNotEnded;
+    });
+}
+
+function isValidAlert(entity) {
+    const createdAt = entity.alert?.['transit_realtime.mercury_alert']?.created_at;
 
     if (!entity.alert || !entity.alert.header_text || !createdAt || entity.id.startsWith('lmm:planned_work'))
-        return false
+        return false;
 
-    return createdAt >= bufferTimestamp
+    const isActive = isActiveAlert(entity.alert.active_period);
+
+    return isActive;
 }
 
 async function isAlertDuplicate(headerTranslation) {
@@ -119,7 +125,6 @@ async function fetchAlerts() {
             return
         }
 
-        const bufferTimestamp = Math.floor(Date.now() / 1000) - (30 * 60)
         let foundNewAlert = false
 
         if (Array.isArray(data.entity)) {
@@ -128,7 +133,7 @@ async function fetchAlerts() {
                 if (!formattedAlert)
                     continue
 
-                if (isValidAlert(entity, bufferTimestamp)) {
+                if (isValidAlert(entity)) {
                     const isDuplicate = await isAlertDuplicate(formattedAlert.headerTranslation)
                     if (!isDuplicate) {
                         await postAlertToBsky(formattedAlert)
