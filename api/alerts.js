@@ -17,7 +17,6 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 const agent = new bsky.BskyAgent({
     service: 'https://bsky.social',
-    persistSession: false,
 })
 
 function formatAlertText(entity) {
