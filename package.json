@@ -7,8 +7,9 @@
   "dependencies": {
     "@atproto/api": "^0.4.3",
     "@supabase/supabase-js": "^2.31.0",
-    "axios": "^1.4.0",
-    "dotenv": "^16.3.1",
-    "node-fetch": "^3.3.2"
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
   }
 }
