@@ -35,6 +35,7 @@ function formatAlertText(entity) {
 
     return {
         text: headerText,
+        rawText: headerTranslation.text,
         id: entity.id,
         headerTranslation: headerText,
     };
@@ -47,19 +48,20 @@ function isValidAlert(entity) {
     return true
 }
 
-async function isAlertDuplicate(alertId) {
+async function isAlertDuplicate(formattedAlert) {
     const { data, error } = await supabase
         .from('mta_alerts')
         .select('*')
-        .eq('alert_id', alertId)
+        .eq('alert_id', formattedAlert.id)
+        .or(`header_translation.eq.${formattedAlert.rawText}`)
         .limit(1)
 
     if (error) {
-        console.error('Error checking for duplicate alert:', error)
-        return true
+        console.error('Error checking for duplicate alert:', error);
+        return true;
     }
 
-    return data.length > 0
+    return data.length > 0;
 }
 
 
@@ -112,12 +114,12 @@ async function fetchAlerts() {
                     continue
 
                 if (isValidAlert(entity)) {
-                    const isDuplicate = await isAlertDuplicate(formattedAlert.id)
+                    const isDuplicate = await isAlertDuplicate(formattedAlert);
                     if (!isDuplicate) {
-                        await postAlertToBsky(formattedAlert)
-                        const inserted = await insertAlertToDb(formattedAlert)
+                        await postAlertToBsky(formattedAlert);
+                        const inserted = await insertAlertToDb(formattedAlert);
                         if (inserted)
-                            foundNewAlert = true
+                            foundNewAlert = true;
                     }
                 }
             }
