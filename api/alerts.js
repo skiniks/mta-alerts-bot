@@ -35,7 +35,6 @@ function formatAlertText(entity) {
 
     return {
         text: headerText,
-        rawText: headerTranslation.text,
         id: entity.id,
         headerTranslation: headerText,
     };
@@ -53,7 +52,7 @@ async function isAlertDuplicate(formattedAlert) {
         .from('mta_alerts')
         .select('*')
         .eq('alert_id', formattedAlert.id)
-        .or(`header_translation.eq.${formattedAlert.rawText}`)
+        .or(`header_translation.eq.${formattedAlert.headerTranslation}`)
         .limit(1)
 
     if (error) {
