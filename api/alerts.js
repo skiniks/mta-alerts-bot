@@ -15,6 +15,9 @@ const ALERT_FEED_URL = process.env.MTA_API_URL
 const bskyUsername = process.env.BSKY_USERNAME
 const bskyPassword = process.env.BSKY_PASSWORD
 
+if (process.env.NODE_ENV !== 'production')
+    require('dotenv').config()
+
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 const agent = new bsky.BskyAgent({
@@ -23,46 +26,46 @@ const agent = new bsky.BskyAgent({
 
 function formatAlertText(entity) {
     if (!entity?.alert?.header_text?.translation)
-        return null;
+        return null
 
-    const headerTranslations = entity.alert.header_text.translation;
-    const headerTranslation = headerTranslations.find(t => t.language === 'en');
+    const headerTranslations = entity.alert.header_text.translation
+    const headerTranslation = headerTranslations.find(t => t.language === 'en')
 
     if (!headerTranslation)
-        return null;
+        return null
 
-    const headerText = `🚇 ${headerTranslation.text}`;
+    const headerText = headerTranslation.text
 
     return {
-        text: headerText,
+        text: `${headerText}`,
         id: entity.id,
         headerTranslation: headerText,
-    };
+    }
 }
 
-function isValidAlert(entity) {
-    if (!entity.alert || !entity.alert.header_text || entity.id.startsWith('lmm:planned_work'))
+function isValidAlert(entity, bufferTimestamp) {
+    const createdAt = entity.alert?.['transit_realtime.mercury_alert']?.created_at
+
+    if (!entity.alert || !entity.alert.header_text || !createdAt || entity.id.startsWith('lmm:planned_work'))
         return false
 
-    return true
+    return createdAt >= bufferTimestamp
 }
 
-async function isAlertDuplicate(formattedAlert) {
+async function isAlertDuplicate(headerTranslation) {
     const { data, error } = await supabase
         .from('mta_alerts')
         .select('*')
-        .eq('alert_id', formattedAlert.id)
-        .or(`header_translation.eq.${formattedAlert.headerTranslation}`)
+        .eq('header_translation', headerTranslation)
         .limit(1)
 
     if (error) {
-        console.error('Error checking for duplicate alert:', error);
-        return true;
+        console.error('Error checking for duplicate alert:', error)
+        return true
     }
 
-    return data.length > 0;
+    return data.length > 0
 }
-
 
 async function postAlertToBsky(formattedAlert) {
     const truncatedText = formattedAlert.text.slice(0, 300)
@@ -91,6 +94,18 @@ async function insertAlertToDb(formattedAlert) {
     return true
 }
 
+async function deleteOldAlerts() {
+    const twentyFourHoursAgo = new Date(Date.now() - (24 * 60 * 60 * 1000))
+
+    const { error } = await supabase
+        .from('mta_alerts')
+        .delete()
+        .lt('created_at', twentyFourHoursAgo.toISOString())
+
+    if (error)
+        console.error('Error deleting old alerts:', error)
+}
+
 async function fetchAlerts() {
     try {
         const response = await axios.get(ALERT_FEED_URL, {
@@ -104,6 +119,7 @@ async function fetchAlerts() {
             return
         }
 
+        const bufferTimestamp = Math.floor(Date.now() / 1000) - (24 * 60 * 60)
         let foundNewAlert = false
 
         if (Array.isArray(data.entity)) {
@@ -112,13 +128,13 @@ async function fetchAlerts() {
                 if (!formattedAlert)
                     continue
 
-                if (isValidAlert(entity)) {
-                    const isDuplicate = await isAlertDuplicate(formattedAlert);
+                if (isValidAlert(entity, bufferTimestamp)) {
+                    const isDuplicate = await isAlertDuplicate(formattedAlert.headerTranslation)
                     if (!isDuplicate) {
-                        await postAlertToBsky(formattedAlert);
-                        const inserted = await insertAlertToDb(formattedAlert);
+                        await postAlertToBsky(formattedAlert)
+                        const inserted = await insertAlertToDb(formattedAlert)
                         if (inserted)
-                            foundNewAlert = true;
+                            foundNewAlert = true
                     }
                 }
             }
@@ -135,7 +151,6 @@ async function fetchAlerts() {
     }
 }
 
-
 export default async function handler(_req, res) {
     try {
         await agent.login({
@@ -144,6 +159,7 @@ export default async function handler(_req, res) {
         })
 
         await fetchAlerts()
+        await deleteOldAlerts()
         res.status(200).send('OK')
     }
     catch (error) {
