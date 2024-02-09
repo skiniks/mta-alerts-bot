@@ -1,4 +1,3 @@
-import axios from 'axios'
 import bsky from '@atproto/api'
 import { createClient } from '@supabase/supabase-js'
 
@@ -98,11 +97,14 @@ async function deleteOldAlerts() {
 
 async function fetchAlerts() {
   try {
-    const response = await axios.get(ALERT_FEED_URL, {
+    const response = await fetch(ALERT_FEED_URL, {
       headers: { 'x-api-key': API_KEY },
     })
 
-    const data = response.data
+    if (!response.ok)
+      throw new Error(`HTTP error! status: ${response.status}`)
+
+    const data = await response.json()
 
     if (!data || !data.entity) {
       console.warn('Unexpected data structure:', data)
@@ -133,11 +135,11 @@ async function fetchAlerts() {
       console.warn('data.entity is not an array:', data.entity)
     }
     if (!foundNewAlert)
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log('No new alerts')
   }
   catch (error) {
-    console.error('Error fetching MTA alerts:', error.message)
+    console.error('Error fetching MTA alerts:', error instanceof Error ? error.message : error)
   }
 }
 

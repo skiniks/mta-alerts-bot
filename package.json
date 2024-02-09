@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@atproto/api": "^0.9.6",
-    "@supabase/supabase-js": "^2.39.3",
-    "axios": "^1.6.7"
+    "@supabase/supabase-js": "^2.39.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",

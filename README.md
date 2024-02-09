@@ -8,7 +8,6 @@ The project uses the following dependencies:
 
 - `@atproto/api` for interacting with the Bsky API
 - `@supabase/supabase-js` for interacting with the Supabase database
-- `axios` for making HTTP requests
 
 ## Configuration
 
