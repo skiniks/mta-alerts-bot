@@ -4,12 +4,18 @@
   "version": "1.0.0",
   "author": "Ryan Skinner",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "dependencies": {
-    "@atproto/api": "^0.4.3",
-    "@supabase/supabase-js": "^2.31.0",
-    "axios": "^1.4.0"
+    "@atproto/api": "^0.9.6",
+    "@supabase/supabase-js": "^2.39.3",
+    "axios": "^1.6.7"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1"
+    "@antfu/eslint-config": "^2.6.4",
+    "dotenv": "^16.4.1",
+    "eslint": "^8.56.0"
   }
 }
