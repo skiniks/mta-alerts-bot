@@ -1,6 +1,5 @@
 {
   "name": "mta-alerts-bot",
-  "type": "module",
   "version": "1.0.0",
   "author": "Ryan Skinner",
   "license": "MIT",
@@ -14,6 +13,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
-    "eslint": "^8.56.0"
+    "@types/node": "^20.11.17",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
   }
 }

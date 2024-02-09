@@ -8,13 +8,31 @@ const ALERT_FEED_URL = process.env.MTA_API_URL
 const bskyUsername = process.env.BSKY_USERNAME
 const bskyPassword = process.env.BSKY_PASSWORD
 
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabase = createClient(supabaseUrl!, supabaseKey!)
 
 const agent = new BskyAgent({
   service: 'https://bsky.social',
 })
 
-function formatAlertText(entity) {
+interface AlertEntity {
+  id: string
+  alert?: {
+    'header_text'?: {
+      translation?: Array<{ language: string, text: string }>
+    }
+    'transit_realtime.mercury_alert'?: {
+      created_at: number
+    }
+  }
+}
+
+interface FormattedAlert {
+  text: string
+  id: string
+  headerTranslation: string
+}
+
+function formatAlertText(entity: AlertEntity): FormattedAlert | null {
   if (!entity?.alert?.header_text?.translation)
     return null
 
@@ -33,7 +51,7 @@ function formatAlertText(entity) {
   }
 }
 
-function isValidAlert(entity, bufferTimestamp) {
+function isValidAlert(entity: AlertEntity, bufferTimestamp: number): boolean {
   const createdAt = entity.alert?.['transit_realtime.mercury_alert']?.created_at
 
   if (!entity.alert || !entity.alert.header_text || !createdAt || entity.id.startsWith('lmm:planned_work'))
@@ -42,7 +60,7 @@ function isValidAlert(entity, bufferTimestamp) {
   return createdAt >= bufferTimestamp
 }
 
-async function isAlertDuplicate(headerTranslation) {
+async function isAlertDuplicate(headerTranslation: string): Promise<boolean> {
   const { data, error } = await supabase
     .from('mta_alerts')
     .select('*')
@@ -57,7 +75,7 @@ async function isAlertDuplicate(headerTranslation) {
   return data.length > 0
 }
 
-async function postAlertToBsky(formattedAlert) {
+async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
   const truncatedText = formattedAlert.text.slice(0, 300)
   await agent.post({
     $type: 'app.bsky.feed.post',
@@ -69,7 +87,7 @@ async function postAlertToBsky(formattedAlert) {
   console.log('New alert posted:', truncatedText)
 }
 
-async function insertAlertToDb(formattedAlert) {
+async function insertAlertToDb(formattedAlert: FormattedAlert): Promise<boolean> {
   const { error: insertError } = await supabase.from('mta_alerts').insert({
     alert_id: formattedAlert.id,
     header_translation: formattedAlert.headerTranslation,
@@ -83,8 +101,8 @@ async function insertAlertToDb(formattedAlert) {
   return true
 }
 
-async function deleteOldAlerts() {
-  const twentyFourHoursAgo = new Date(Date.now() - (24 * 60 * 60 * 1000))
+async function deleteOldAlerts(): Promise<void> {
+  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
 
   const { error } = await supabase
     .from('mta_alerts')
@@ -95,10 +113,10 @@ async function deleteOldAlerts() {
     console.error('Error deleting old alerts:', error)
 }
 
-async function fetchAlerts() {
+async function fetchAlerts(): Promise<void> {
   try {
-    const response = await fetch(ALERT_FEED_URL, {
-      headers: { 'x-api-key': API_KEY },
+    const response = await fetch(ALERT_FEED_URL!, {
+      headers: { 'x-api-key': API_KEY! },
     })
 
     if (!response.ok)
@@ -111,16 +129,16 @@ async function fetchAlerts() {
       return
     }
 
-    const bufferTimestamp = Math.floor(Date.now() / 1000) - (24 * 60 * 60)
+    const bufferTimestamp = Math.floor(Date.now() / 1000) - 24 * 60 * 60
     let foundNewAlert = false
 
     if (Array.isArray(data.entity)) {
       for (const entity of data.entity) {
-        const formattedAlert = formatAlertText(entity)
+        const formattedAlert = formatAlertText(entity as AlertEntity)
         if (!formattedAlert)
           continue
 
-        if (isValidAlert(entity, bufferTimestamp)) {
+        if (isValidAlert(entity as AlertEntity, bufferTimestamp)) {
           const isDuplicate = await isAlertDuplicate(formattedAlert.headerTranslation)
           if (!isDuplicate) {
             await postAlertToBsky(formattedAlert)
@@ -143,11 +161,11 @@ async function fetchAlerts() {
   }
 }
 
-export default async function handler(_req, res) {
+export default async function handler(_req: any, res: any): Promise<void> {
   try {
     await agent.login({
-      identifier: bskyUsername,
-      password: bskyPassword,
+      identifier: bskyUsername!,
+      password: bskyPassword!,
     })
 
     await fetchAlerts()
