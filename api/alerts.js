@@ -1,4 +1,4 @@
-import bsky from '@atproto/api'
+import { BskyAgent } from '@atproto/api'
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.SUPABASE_URL
@@ -10,7 +10,7 @@ const bskyPassword = process.env.BSKY_PASSWORD
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-const agent = new bsky.BskyAgent({
+const agent = new BskyAgent({
   service: 'https://bsky.social',
 })
 
