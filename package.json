@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
-    "dotenv": "^16.4.1",
     "eslint": "^8.56.0"
   }
 }

@@ -2,21 +2,12 @@ import axios from 'axios'
 import bsky from '@atproto/api'
 import { createClient } from '@supabase/supabase-js'
 
-const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_KEY', 'MTA_API_KEY', 'MTA_API_URL', 'BSKY_USERNAME', 'BSKY_PASSWORD']
-requiredEnvVars.forEach((varName) => {
-  if (!process.env[varName])
-    throw new Error(`Missing required environment variable: ${varName}`)
-})
-
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
 const API_KEY = process.env.MTA_API_KEY
 const ALERT_FEED_URL = process.env.MTA_API_URL
 const bskyUsername = process.env.BSKY_USERNAME
 const bskyPassword = process.env.BSKY_PASSWORD
-
-if (process.env.NODE_ENV !== 'production')
-  require('dotenv').config()
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
