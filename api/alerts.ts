@@ -27,9 +27,7 @@ interface FormattedAlert {
   headerTranslation: string
 }
 
-const db = createKysely<Database>({
-  connectionString: process.env.POSTGRES_URL,
-})
+const db = createKysely<Database>()
 
 const API_KEY = process.env.MTA_API_KEY
 const ALERT_FEED_URL = process.env.MTA_API_URL
