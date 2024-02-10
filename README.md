@@ -7,7 +7,6 @@ This project is a bot that fetches alerts from the MTA API, checks for duplicate
 The project uses the following dependencies:
 
 - `@atproto/api` for interacting with the Bsky API
-- `@supabase/supabase-js` for interacting with the Supabase database
 
 ## Configuration
 
