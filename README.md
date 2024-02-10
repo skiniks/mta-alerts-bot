@@ -13,8 +13,6 @@ The project uses the following dependencies:
 The project requires several environment variables to be set:
 
 ```
-SUPABASE_URL=your_supabase_url
-SUPABASE_KEY=your_supabase_key
 MTA_API_KEY=your_mta_api_key
 MTA_API_URL=your_mta_api_url
 BSKY_USERNAME=your_bsky_username
