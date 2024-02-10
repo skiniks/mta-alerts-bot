@@ -1,5 +1,6 @@
 import { BskyAgent } from '@atproto/api'
 import { createKysely } from '@vercel/postgres-kysely'
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 interface Database {
   mta_alerts: {
@@ -169,7 +170,7 @@ async function fetchAlerts(): Promise<void> {
   }
 }
 
-export default async function handler(_req: any, res: any): Promise<void> {
+export default async function handler(_req: VercelRequest, res: VercelResponse): Promise<void> {
   try {
     await agent.login({
       identifier: bskyUsername!,
