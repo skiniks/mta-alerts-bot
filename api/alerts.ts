@@ -1,18 +1,13 @@
 import { BskyAgent } from '@atproto/api'
-import { createClient } from '@supabase/supabase-js'
+import { createKysely } from '@vercel/postgres-kysely'
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_KEY
-const API_KEY = process.env.MTA_API_KEY
-const ALERT_FEED_URL = process.env.MTA_API_URL
-const bskyUsername = process.env.BSKY_USERNAME
-const bskyPassword = process.env.BSKY_PASSWORD
-
-const supabase = createClient(supabaseUrl!, supabaseKey!)
-
-const agent = new BskyAgent({
-  service: 'https://bsky.social',
-})
+interface Database {
+  mta_alerts: {
+    alert_id: string
+    header_translation: string
+    created_at: Date
+  }
+}
 
 interface AlertEntity {
   id: string
@@ -31,6 +26,19 @@ interface FormattedAlert {
   id: string
   headerTranslation: string
 }
+
+const db = createKysely<Database>({
+  connectionString: process.env.POSTGRES_URL,
+})
+
+const API_KEY = process.env.MTA_API_KEY
+const ALERT_FEED_URL = process.env.MTA_API_URL
+const bskyUsername = process.env.BSKY_USERNAME
+const bskyPassword = process.env.BSKY_PASSWORD
+
+const agent = new BskyAgent({
+  service: 'https://bsky.social',
+})
 
 function formatAlertText(entity: AlertEntity): FormattedAlert | null {
   if (!entity?.alert?.header_text?.translation)
@@ -61,18 +69,13 @@ function isValidAlert(entity: AlertEntity, bufferTimestamp: number): boolean {
 }
 
 async function isAlertDuplicate(headerTranslation: string): Promise<boolean> {
-  const { data, error } = await supabase
-    .from('mta_alerts')
-    .select('*')
-    .eq('header_translation', headerTranslation)
-    .limit(1)
+  const result = await db
+    .selectFrom('mta_alerts')
+    .select('header_translation')
+    .where('header_translation', '=', headerTranslation)
+    .executeTakeFirst()
 
-  if (error) {
-    console.error('Error checking for duplicate alert:', error)
-    return true
-  }
-
-  return data.length > 0
+  return !!result
 }
 
 async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
@@ -88,29 +91,36 @@ async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
 }
 
 async function insertAlertToDb(formattedAlert: FormattedAlert): Promise<boolean> {
-  const { error: insertError } = await supabase.from('mta_alerts').insert({
-    alert_id: formattedAlert.id,
-    header_translation: formattedAlert.headerTranslation,
-  })
+  try {
+    await db
+      .insertInto('mta_alerts')
+      .values({
+        alert_id: formattedAlert.id,
+        header_translation: formattedAlert.headerTranslation,
+        created_at: new Date(),
+      })
+      .execute()
 
-  if (insertError) {
-    console.error('Error inserting alert into Supabase:', insertError)
+    return true
+  }
+  catch (error) {
+    console.error('Error inserting alert into database:', error)
     return false
   }
-
-  return true
 }
 
 async function deleteOldAlerts(): Promise<void> {
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
 
-  const { error } = await supabase
-    .from('mta_alerts')
-    .delete()
-    .lt('created_at', twentyFourHoursAgo.toISOString())
-
-  if (error)
+  try {
+    await db
+      .deleteFrom('mta_alerts')
+      .where('created_at', '<', twentyFourHoursAgo)
+      .execute()
+  }
+  catch (error) {
     console.error('Error deleting old alerts:', error)
+  }
 }
 
 async function fetchAlerts(): Promise<void> {
