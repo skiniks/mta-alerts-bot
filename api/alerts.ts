@@ -1,37 +1,8 @@
 import { BskyAgent } from '@atproto/api'
 import { createKysely } from '@vercel/postgres-kysely'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-
-interface Database {
-  mta_alerts: {
-    alert_id: string
-    header_translation: string
-    created_at: Date
-  }
-}
-
-interface AlertEntity {
-  id: string
-  alert?: {
-    'header_text'?: {
-      translation?: Array<{ language: string, text: string }>
-    }
-    'transit_realtime.mercury_alert'?: {
-      created_at: number
-    }
-  }
-}
-
-interface FormattedAlert {
-  text: string
-  id: string
-  headerTranslation: string
-}
-
-const API_KEY = process.env.MTA_API_KEY
-const ALERT_FEED_URL = process.env.MTA_API_URL
-const bskyUsername = process.env.BSKY_USERNAME
-const bskyPassword = process.env.BSKY_PASSWORD
+import type { AlertEntity, Database, FormattedAlert } from '../types'
+import { ALERT_FEED_URL, API_KEY, bskyPassword, bskyUsername } from '../config'
 
 const db = createKysely<Database>()
 
