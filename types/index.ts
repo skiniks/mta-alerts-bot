@@ -1,10 +1,10 @@
 export interface AlertEntity {
   id: string
-  alert?: {
-    'header_text'?: {
-      translation?: Array<{ language: string, text: string }>
+  alert: {
+    'header_text': {
+      translation: Array<{ language: string, text: string }>
     }
-    'transit_realtime.mercury_alert'?: {
+    'transit_realtime.mercury_alert': {
       created_at: number
     }
   }
