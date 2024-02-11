@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { BskyAgent } from '@atproto/api'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import type { AlertEntity, FormattedAlert } from '../types'
-import { ALERT_FEED_URL, API_KEY, SUPABASE_KEY, SUPABASE_URL, bskyPassword, bskyUsername } from '../config'
+import { ALERT_FEED_URL, API_KEY, BSKY_PASSWORD, BSKY_USERNAME, SUPABASE_KEY, SUPABASE_URL } from '../config'
 
 const supabase = createClient(SUPABASE_URL!, SUPABASE_KEY!)
 
@@ -140,8 +140,8 @@ async function fetchAlerts(): Promise<void> {
 export default async function handler(_req: VercelRequest, res: VercelResponse): Promise<void> {
   try {
     await agent.login({
-      identifier: bskyUsername!,
-      password: bskyPassword!,
+      identifier: BSKY_USERNAME!,
+      password: BSKY_PASSWORD!,
     })
 
     await fetchAlerts()
