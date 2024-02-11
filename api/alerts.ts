@@ -1,10 +1,10 @@
+import { createClient } from '@supabase/supabase-js'
 import { BskyAgent } from '@atproto/api'
-import { createKysely } from '@vercel/postgres-kysely'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import type { AlertEntity, Database, FormattedAlert } from '../types'
-import { ALERT_FEED_URL, API_KEY, bskyPassword, bskyUsername } from '../config'
+import type { AlertEntity, FormattedAlert } from '../types'
+import { ALERT_FEED_URL, API_KEY, SUPABASE_KEY, SUPABASE_URL, bskyPassword, bskyUsername } from '../config'
 
-const db = createKysely<Database>()
+const supabase = createClient(SUPABASE_URL!, SUPABASE_KEY!)
 
 const agent = new BskyAgent({
   service: 'https://bsky.social',
@@ -39,13 +39,13 @@ function isValidAlert(entity: AlertEntity, bufferTimestamp: number): boolean {
 }
 
 async function isAlertDuplicate(headerTranslation: string): Promise<boolean> {
-  const result = await db
-    .selectFrom('mta_alerts')
+  const { data } = await supabase
+    .from('mta_alerts')
     .select('header_translation')
-    .where('header_translation', '=', headerTranslation)
-    .executeTakeFirst()
+    .eq('header_translation', headerTranslation)
+    .single()
 
-  return !!result
+  return !!data
 }
 
 async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
@@ -61,36 +61,32 @@ async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
 }
 
 async function insertAlertToDb(formattedAlert: FormattedAlert): Promise<boolean> {
-  try {
-    await db
-      .insertInto('mta_alerts')
-      .values({
-        alert_id: formattedAlert.id,
-        header_translation: formattedAlert.headerTranslation,
-        created_at: new Date(),
-      })
-      .execute()
+  const { error } = await supabase
+    .from('mta_alerts')
+    .insert([{
+      alert_id: formattedAlert.id,
+      header_translation: formattedAlert.headerTranslation,
+      created_at: new Date(),
+    }])
 
-    return true
-  }
-  catch (error) {
+  if (error) {
     console.error('Error inserting alert into database:', error)
     return false
   }
+
+  return true
 }
 
 async function deleteOldAlerts(): Promise<void> {
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
 
-  try {
-    await db
-      .deleteFrom('mta_alerts')
-      .where('created_at', '<', twentyFourHoursAgo)
-      .execute()
-  }
-  catch (error) {
+  const { error } = await supabase
+    .from('mta_alerts')
+    .delete()
+    .lt('created_at', twentyFourHoursAgo.toISOString())
+
+  if (error)
     console.error('Error deleting old alerts:', error)
-  }
 }
 
 async function fetchAlerts(): Promise<void> {

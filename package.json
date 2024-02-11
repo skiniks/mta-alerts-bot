@@ -10,9 +10,9 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
     "@atproto/api": "^0.9.6",
+    "@supabase/supabase-js": "^2.39.3",
     "@types/node": "^20.11.17",
     "@vercel/node": "^3.0.18",
-    "@vercel/postgres-kysely": "^0.7.2",
     "eslint": "^8.56.0",
     "typescript": "^5.3.3"
   }
