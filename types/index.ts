@@ -1,11 +1,3 @@
-export interface Database {
-  mta_alerts: {
-    alert_id: string
-    header_translation: string
-    created_at: Date
-  }
-}
-
 export interface AlertEntity {
   id: string
   alert?: {
