@@ -38,14 +38,18 @@ function isValidAlert(entity: AlertEntity, bufferTimestamp: number): boolean {
   return createdAt >= bufferTimestamp
 }
 
-async function isAlertDuplicate(headerTranslation: string): Promise<boolean> {
-  const { data } = await supabase
+async function isAlertDuplicate(alertId, headerTranslation) {
+  const { data, error } = await supabase
     .from('mta_alerts')
-    .select('header_translation')
-    .eq('header_translation', headerTranslation)
-    .maybeSingle()
+    .select('*')
+    .or(`alert_id.eq.${alertId},header_translation.eq.${headerTranslation}`)
 
-  return !!data
+  if (error) {
+    console.error('Error querying for duplicates:', error)
+    return false
+  }
+
+  return data.length > 0
 }
 
 async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
@@ -115,7 +119,7 @@ async function fetchAlerts(): Promise<void> {
           continue
 
         if (isValidAlert(entity as AlertEntity, bufferTimestamp)) {
-          const isDuplicate = await isAlertDuplicate(formattedAlert.headerTranslation)
+          const isDuplicate = await isAlertDuplicate(formattedAlert.id, formattedAlert.headerTranslation)
           if (!isDuplicate) {
             await postAlertToBsky(formattedAlert)
             const inserted = await insertAlertToDb(formattedAlert)
