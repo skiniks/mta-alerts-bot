@@ -39,17 +39,20 @@ function isValidAlert(entity: AlertEntity, bufferTimestamp: number): boolean {
 }
 
 async function isAlertDuplicate(alertId, headerTranslation) {
+  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
   const { data, error } = await supabase
     .from('mta_alerts')
     .select('*')
-    .or(`alert_id.eq.${alertId},header_translation.eq.${headerTranslation}`)
+    .eq('header_translation', headerTranslation)
+    .gte('created_at', oneDayAgo);
 
   if (error) {
-    console.error('Error querying for duplicates:', error)
-    return false
+    console.error('Error querying for duplicates:', error);
+    return false;
   }
 
-  return data.length > 0
+  return data.length > 0;
 }
 
 async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
