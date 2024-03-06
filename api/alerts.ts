@@ -43,14 +43,13 @@ async function isAlertDuplicate(alertId: string, headerTranslation: string): Pro
     .from('mta_alerts')
     .select('id')
     .or(`alert_id.eq.${alertId},header_translation.eq.${headerTranslation}`)
-    .single();
 
   if (error) {
-    console.error('Error checking for duplicates:', error.message);
-    return true;
+    console.error('Error checking for duplicates:', error.message)
+    return true
   }
 
-  return !!data;
+  return data.length > 0
 }
 
 async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
