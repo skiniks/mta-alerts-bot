@@ -1,0 +1,53 @@
+import { ALERT_FEED_URL, API_KEY } from '../config'
+import { formatAlertText, isValidAlert } from '../utils/alerts'
+import { postAlertToBsky } from './bsky'
+import { insertAlertToDb, isAlertDuplicate } from './database'
+
+export async function fetchAlerts(): Promise<void> {
+  try {
+    const response = await fetch(ALERT_FEED_URL!, {
+      headers: { 'x-api-key': API_KEY! },
+    })
+
+    if (!response.ok)
+      throw new Error(`HTTP error! status: ${response.status}`)
+
+    const data = await response.json()
+
+    if (!data || !data.entity) {
+      console.warn('Unexpected data structure:', data)
+      return
+    }
+
+    const bufferTimestamp = Math.floor(Date.now() / 1000) - 24 * 60 * 60
+    let foundNewAlert = false
+
+    if (Array.isArray(data.entity)) {
+      for (const entity of data.entity) {
+        const formattedAlert = formatAlertText(entity)
+        if (!formattedAlert)
+          continue
+
+        if (isValidAlert(entity, bufferTimestamp)) {
+          const isDuplicate = await isAlertDuplicate(formattedAlert.id, formattedAlert.headerTranslation)
+          if (!isDuplicate) {
+            await postAlertToBsky(formattedAlert)
+            const inserted = await insertAlertToDb(formattedAlert)
+            if (inserted)
+              foundNewAlert = true
+          }
+        }
+      }
+    }
+    else {
+      console.warn('data.entity is not an array:', data.entity)
+    }
+
+    if (!foundNewAlert)
+      // eslint-disable-next-line no-console
+      console.log('No new alerts')
+  }
+  catch (error) {
+    console.error('Error fetching MTA alerts:', error)
+  }
+}
