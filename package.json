@@ -8,12 +8,12 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.27.3",
+    "@antfu/eslint-config": "^3.11.2",
     "@atproto/api": "^0.12.29",
     "@supabase/supabase-js": "^2.46.2",
-    "@types/node": "^20.17.9",
+    "@types/node": "^22.10.1",
     "@vercel/node": "^3.2.27",
-    "eslint": "^8.57.1",
+    "eslint": "^9.15.0",
     "typescript": "^5.7.2"
   }
 }
