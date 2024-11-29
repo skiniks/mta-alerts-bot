@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
-    "@atproto/api": "^0.12.29",
+    "@atproto/api": "^0.13.18",
     "@supabase/supabase-js": "^2.46.2",
     "@types/node": "^20.17.9",
     "@vercel/node": "^3.2.27",
