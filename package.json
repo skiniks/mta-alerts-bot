@@ -12,7 +12,7 @@
     "@atproto/api": "^0.13.18",
     "@supabase/supabase-js": "^2.46.2",
     "@types/node": "^22.10.1",
-    "@vercel/node": "^3.2.27",
+    "@vercel/node": "^5.0.0",
     "eslint": "^9.15.0",
     "typescript": "^5.7.2"
   }
