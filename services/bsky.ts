@@ -1,6 +1,6 @@
+import type { FormattedAlert } from '../types'
 import { AtpAgent } from '@atproto/api'
 import { BSKY_PASSWORD, BSKY_USERNAME } from '../config'
-import type { FormattedAlert } from '../types'
 
 export const agent = new AtpAgent({
   service: 'https://bsky.social',

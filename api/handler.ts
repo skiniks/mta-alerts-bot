@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { loginToBsky } from '../services/bsky'
 import { fetchAlerts } from '../services/alerts'
+import { loginToBsky } from '../services/bsky'
 import { deleteOldAlerts } from '../services/database'
 
 export default async function handler(_req: VercelRequest, res: VercelResponse): Promise<void> {

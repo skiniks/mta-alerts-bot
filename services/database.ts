@@ -1,5 +1,5 @@
-import { supabase } from '../utils/supabaseClient'
 import type { FormattedAlert } from '../types'
+import { supabase } from '../utils/supabaseClient'
 
 export async function isAlertDuplicate(alertId: string, headerTranslation: string): Promise<boolean> {
   const { data, error } = await supabase
