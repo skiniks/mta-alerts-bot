@@ -1,4 +1,4 @@
-import type { AlertEntity, FormattedAlert } from '../types'
+import type { AlertEntity, FormattedAlert } from '../types/index.js'
 
 export function formatAlertText(entity: AlertEntity): FormattedAlert | null {
   if (!entity?.alert?.header_text?.translation)
