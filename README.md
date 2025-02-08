@@ -12,10 +12,12 @@ A serverless bot that monitors New York City's subway system through the MTA (Me
 Required environment variables:
 
 ```
+BSKY_PASSWORD=your_bsky_password
+BSKY_USERNAME=your_bsky_username
 MTA_API_KEY=your_mta_api_key
 MTA_API_URL=your_mta_api_url
-BSKY_USERNAME=your_bsky_username
-BSKY_PASSWORD=your_bsky_password
+SUPABASE_KEY=your_supabase_key
+SUPABASE_URL=your_supabase_url
 ```
 
 ## Deployment
