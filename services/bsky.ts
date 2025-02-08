@@ -1,9 +1,9 @@
 import type { FormattedAlert } from '../types/index.js'
 import { AtpAgent } from '@atproto/api'
-import { BSKY_PASSWORD, BSKY_USERNAME } from '../config/index.js'
+import { BSKY_PASSWORD, BSKY_USERNAME, SERVICE } from '../config/index.js'
 
 export const agent = new AtpAgent({
-  service: 'https://bsky.social',
+  service: SERVICE,
 })
 
 export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
@@ -22,7 +22,6 @@ export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<v
     record,
   })
 
-  // eslint-disable-next-line no-console
   console.log('New alert posted:', truncatedText)
 }
 

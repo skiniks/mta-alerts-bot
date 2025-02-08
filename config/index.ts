@@ -6,3 +6,4 @@ export const BSKY_USERNAME = process.env.BSKY_USERNAME
 export const BSKY_PASSWORD = process.env.BSKY_PASSWORD
 export const SUPABASE_URL = process.env.SUPABASE_URL
 export const SUPABASE_KEY = process.env.SUPABASE_KEY
+export const SERVICE = 'https://bsky.social'

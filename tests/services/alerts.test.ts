@@ -300,5 +300,61 @@ describe('alerts Service', () => {
       expect(postAlertToBsky).not.toHaveBeenCalled()
       expect(insertAlertToDb).not.toHaveBeenCalled()
     })
+
+    it('should handle empty entity array', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ entity: [] }),
+      })
+
+      const consoleWarnSpy = vi.spyOn(console, 'warn')
+      await fetchAlerts()
+
+      expect(consoleWarnSpy).toHaveBeenCalledWith('No new alerts')
+      expect(postAlertToBsky).not.toHaveBeenCalled()
+      expect(insertAlertToDb).not.toHaveBeenCalled()
+    })
+
+    it('should handle undefined entity', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ entity: undefined }),
+      })
+
+      const consoleWarnSpy = vi.spyOn(console, 'warn')
+      await fetchAlerts()
+
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        'Unexpected data structure:',
+        { entity: undefined },
+      )
+      expect(postAlertToBsky).not.toHaveBeenCalled()
+      expect(insertAlertToDb).not.toHaveBeenCalled()
+    })
+
+    it('should skip alerts with invalid format', async () => {
+      const responseWithInvalidFormat = {
+        entity: [{
+          id: 'test-alert',
+          alert: {
+            'transit_realtime.mercury_alert': {
+              created_at: Math.floor(Date.now() / 1000),
+            },
+          },
+        }],
+      }
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(responseWithInvalidFormat),
+      })
+
+      const consoleWarnSpy = vi.spyOn(console, 'warn')
+      await fetchAlerts()
+
+      expect(consoleWarnSpy).toHaveBeenCalledWith('No new alerts')
+      expect(postAlertToBsky).not.toHaveBeenCalled()
+      expect(insertAlertToDb).not.toHaveBeenCalled()
+    })
   })
 })

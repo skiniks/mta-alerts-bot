@@ -44,8 +44,7 @@ export async function fetchAlerts(): Promise<void> {
     }
 
     if (!foundNewAlert)
-      // eslint-disable-next-line no-console
-      console.log('No new alerts')
+      console.warn('No new alerts')
   }
   catch (error) {
     console.error('Error fetching MTA alerts:', error)
