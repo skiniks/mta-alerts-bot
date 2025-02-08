@@ -1,7 +1,7 @@
 import { ALERT_FEED_URL, API_KEY } from '../config'
-import { formatAlertText, isValidAlert } from '../utils/alerts'
-import { postAlertToBsky } from './bsky'
-import { insertAlertToDb, isAlertDuplicate } from './database'
+import { formatAlertText, isValidAlert } from '../utils/alerts.js'
+import { postAlertToBsky } from './bsky.js'
+import { insertAlertToDb, isAlertDuplicate } from './database.js'
 
 export async function fetchAlerts(): Promise<void> {
   try {
