@@ -1,6 +1,6 @@
 import type { AtpAgent } from '@atproto/api'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockAgent } from '../utils/testHelpers'
+import { mockAgent } from '../utils/testHelpers.js'
 
 vi.mock('@atproto/api', () => {
   return {
@@ -12,7 +12,7 @@ vi.mock('@atproto/api', () => {
   }
 })
 
-const { loginToBsky, postAlertToBsky } = await import('../../services/bsky')
+const { loginToBsky, postAlertToBsky } = await import('../../services/bsky.js')
 
 describe('bsky service', () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import type { PostgrestError } from '@supabase/supabase-js'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockSupabase } from '../utils/testHelpers'
-import { setupConsoleMocks } from '../utils/testSetup'
+import { mockSupabase } from '../utils/testHelpers.js'
+import { setupConsoleMocks } from '../utils/testSetup.js'
 
 vi.mock('../../utils/supabaseClient', () => ({
   supabase: mockSupabase,
@@ -9,7 +9,7 @@ vi.mock('../../utils/supabaseClient', () => ({
 
 type SupabaseError = PostgrestError | null
 
-const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate } = await import('../../services/database')
+const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate } = await import('../../services/database.js')
 
 describe('database service', () => {
   const consoleMocks = setupConsoleMocks()

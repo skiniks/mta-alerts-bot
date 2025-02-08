@@ -1,6 +1,6 @@
-import type { AlertEntity } from '../../types'
+import type { AlertEntity } from '../../types/index.js'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockConfig, setupConsoleMocks } from '../utils/testSetup'
+import { mockConfig, setupConsoleMocks } from '../utils/testSetup.js'
 
 vi.mock('../../config', () => mockConfig)
 vi.mock('../../services/bsky', () => ({
@@ -27,10 +27,10 @@ vi.mock('../../utils/alerts', () => ({
   }),
 }))
 
-const { fetchAlerts } = await import('../../services/alerts')
-const { formatAlertText, isValidAlert } = await import('../../utils/alerts')
-const { postAlertToBsky } = await import('../../services/bsky')
-const { isAlertDuplicate, insertAlertToDb } = await import('../../services/database')
+const { fetchAlerts } = await import('../../services/alerts.js')
+const { formatAlertText, isValidAlert } = await import('../../utils/alerts.js')
+const { postAlertToBsky } = await import('../../services/bsky.js')
+const { isAlertDuplicate, insertAlertToDb } = await import('../../services/database.js')
 
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)

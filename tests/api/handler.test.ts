@@ -1,22 +1,22 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import handler from '../../api/handler'
+import handler from '../../api/handler.js'
 
-vi.mock('../../services/alerts', () => ({
+vi.mock('../../services/alerts.js', () => ({
   fetchAlerts: vi.fn(),
 }))
 
-vi.mock('../../services/bsky', () => ({
+vi.mock('../../services/bsky.js', () => ({
   loginToBsky: vi.fn(),
 }))
 
-vi.mock('../../services/database', () => ({
+vi.mock('../../services/database.js', () => ({
   deleteOldAlerts: vi.fn(),
 }))
 
-const { fetchAlerts } = await import('../../services/alerts')
-const { loginToBsky } = await import('../../services/bsky')
-const { deleteOldAlerts } = await import('../../services/database')
+const { fetchAlerts } = await import('../../services/alerts.js')
+const { loginToBsky } = await import('../../services/bsky.js')
+const { deleteOldAlerts } = await import('../../services/database.js')
 
 describe('aPI Handler', () => {
   let mockReq: VercelRequest

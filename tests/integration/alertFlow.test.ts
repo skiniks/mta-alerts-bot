@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockConfig, mockSupabaseResponse } from '../utils/testSetup'
+import { mockConfig, mockSupabaseResponse } from '../utils/testSetup.js'
 
 vi.mock('../../config', () => mockConfig)
 vi.mock('../../utils/supabaseClient', () => ({
@@ -19,8 +19,8 @@ vi.mock('../../services/alerts', () => ({
   fetchAlerts: vi.fn().mockResolvedValue(undefined),
 }))
 
-const handler = await import('../../api/handler').then(m => m.default)
-const { loginToBsky } = await import('../../services/bsky')
+const handler = await import('../../api/handler.js').then(m => m.default)
+const { loginToBsky } = await import('../../services/bsky.js')
 
 describe('alert Flow Integration', () => {
   beforeEach(() => {
