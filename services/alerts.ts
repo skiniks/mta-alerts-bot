@@ -1,4 +1,4 @@
-import { ALERT_FEED_URL, API_KEY } from '../config'
+import { ALERT_FEED_URL, API_KEY } from '../config/index.js'
 import { formatAlertText, isValidAlert } from '../utils/alerts.js'
 import { postAlertToBsky } from './bsky.js'
 import { insertAlertToDb, isAlertDuplicate } from './database.js'

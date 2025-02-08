@@ -1,4 +1,4 @@
-import type { FormattedAlert } from '../types'
+import type { FormattedAlert } from '../types/index.js'
 import { supabase } from '../utils/supabaseClient.js'
 
 export async function isAlertDuplicate(alertId: string, headerTranslation: string): Promise<boolean> {
