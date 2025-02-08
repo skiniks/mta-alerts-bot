@@ -1,19 +1,26 @@
 {
   "name": "mta-alerts-bot",
+  "type": "module",
   "version": "1.0.0",
   "author": "Ryan Skinner",
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.35",
+    "@supabase/supabase-js": "^2.48.1",
+    "@types/node": "^22.13.1",
+    "@vercel/node": "^5.1.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.1.1",
-    "@atproto/api": "^0.13.33",
-    "@supabase/supabase-js": "^2.48.1",
-    "@types/node": "^22.13.1",
-    "@vercel/node": "^5.1.1",
-    "eslint": "^9.19.0",
-    "typescript": "^5.7.3"
+    "@vitest/coverage-v8": "^3.0.5",
+    "eslint": "^9.20.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
   }
 }

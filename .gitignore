@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 .env
+.pnpm-store
+.vercel
 dist
 node_modules
-.vercel

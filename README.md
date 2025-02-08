@@ -1,16 +1,15 @@
 # MTA Alerts Bot
 
-This project is a bot that fetches alerts from the MTA API, checks for duplicates in a Supabase database, and posts new alerts to a Bsky feed. The bot is deployed on Vercel and runs every 2 minutes.
+A serverless bot that monitors New York City's subway system through the MTA (Metropolitan Transportation Authority) Realtime Alerts feed and shares updates on Bluesky. The bot fetches service alerts from the NYC subway API once per minute, uses Supabase to prevent duplicate posts, and automatically shares service updates to Bluesky.
 
 ### Prerequisites
 
-The project uses the following dependencies:
-
-- `@atproto/api` for interacting with the Bsky API
+- `@atproto/api`: Library for posting updates to Bluesky
+- `@supabase/supabase-js`: Client library for managing data in Supabase
 
 ## Configuration
 
-The project requires several environment variables to be set:
+Required environment variables:
 
 ```
 MTA_API_KEY=your_mta_api_key
@@ -21,4 +20,4 @@ BSKY_PASSWORD=your_bsky_password
 
 ## Deployment
 
-The bot is deployed on Vercel and uses a cron job to run every 2 minutes. The cron job is configured in the vercel.json file.
+The bot is hosted on Vercel with a cron job scheduled to check for updates every minute, as defined in `vercel.json`.
