@@ -1,14 +1,18 @@
-import type { AtpAgent } from '@atproto/api'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockAgent } from '../utils/testHelpers.js'
 
-vi.mock('@atproto/api', () => {
+const mockManager = {
+  session: { did: 'test-did' },
+  login: vi.fn(),
+}
+
+const mockRpc = {
+  call: vi.fn(),
+}
+
+vi.mock('@atcute/client', () => {
   return {
-    AtpAgent: class MockAtpAgent {
-      constructor() {
-        return mockAgent as unknown as AtpAgent
-      }
-    },
+    CredentialManager: vi.fn().mockImplementation(() => mockManager),
+    XRPC: vi.fn().mockImplementation(() => mockRpc),
   }
 })
 
@@ -21,7 +25,7 @@ describe('bsky service', () => {
 
   describe('postAlertToBsky', () => {
     beforeEach(() => {
-      mockAgent.session = { did: 'test-did' }
+      mockManager.session = { did: 'test-did' } as { did: string }
     })
 
     it('should post alert successfully', async () => {
@@ -33,15 +37,20 @@ describe('bsky service', () => {
 
       await postAlertToBsky(alert)
 
-      expect(mockAgent.com.atproto.repo.createRecord).toHaveBeenCalled()
-      const callArg = mockAgent.com.atproto.repo.createRecord.mock.calls[0][0]
-      expect(callArg.collection).toBe('app.bsky.feed.post')
-      expect(callArg.repo).toBe('test-did')
-      expect(callArg.record.text).toBe('Test Alert')
+      expect(mockRpc.call).toHaveBeenCalledWith('com.atproto.repo.createRecord', {
+        data: {
+          repo: 'test-did',
+          collection: 'app.bsky.feed.post',
+          record: {
+            text: 'Test Alert',
+            createdAt: expect.any(String),
+          },
+        },
+      })
     })
 
     it('should throw error when not logged in', async () => {
-      mockAgent.session = null as unknown as { did: string }
+      mockManager.session = null as unknown as { did: string }
 
       const alert = {
         id: 'test-id',
@@ -53,7 +62,7 @@ describe('bsky service', () => {
     })
 
     it('should handle rate limiting errors', async () => {
-      mockAgent.com.atproto.repo.createRecord.mockRejectedValueOnce(
+      mockRpc.call.mockRejectedValueOnce(
         new Error('Too many requests'),
       )
 
@@ -76,12 +85,12 @@ describe('bsky service', () => {
 
       await postAlertToBsky(alert)
 
-      const callArg = mockAgent.com.atproto.repo.createRecord.mock.calls[0][0]
-      expect(callArg.record.text.length).toBe(300)
+      const callArg = mockRpc.call.mock.calls[0][1]
+      expect(callArg.data.record.text.length).toBe(300)
     })
 
     it('should handle authentication failures', async () => {
-      mockAgent.com.atproto.repo.createRecord.mockRejectedValueOnce(
+      mockRpc.call.mockRejectedValueOnce(
         new Error('Authentication failed'),
       )
 
@@ -98,7 +107,7 @@ describe('bsky service', () => {
   describe('loginToBsky', () => {
     it('should login successfully', async () => {
       await loginToBsky()
-      expect(mockAgent.login).toHaveBeenCalled()
+      expect(mockManager.login).toHaveBeenCalled()
     })
   })
 })

@@ -1,13 +1,14 @@
 import type { FormattedAlert } from '../types/index.js'
-import { AtpAgent } from '@atproto/api'
+import { CredentialManager, XRPC } from '@atcute/client'
 import { BSKY_PASSWORD, BSKY_USERNAME, SERVICE } from '../config/index.js'
 
-export const agent = new AtpAgent({
-  service: SERVICE,
+const manager = new CredentialManager({
+  service: SERVICE!,
 })
+const rpc = new XRPC({ handler: manager })
 
 export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
-  if (!agent.session?.did)
+  if (!manager.session?.did)
     throw new Error('Not logged in - no session DID available')
 
   const truncatedText = formattedAlert.text.slice(0, 300)
@@ -16,17 +17,19 @@ export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<v
     createdAt: new Date().toISOString(),
   }
 
-  await agent.com.atproto.repo.createRecord({
-    repo: agent.session.did,
-    collection: 'app.bsky.feed.post',
-    record,
+  await rpc.call('com.atproto.repo.createRecord', {
+    data: {
+      repo: manager.session.did,
+      collection: 'app.bsky.feed.post',
+      record,
+    },
   })
 
   console.log('New alert posted:', truncatedText)
 }
 
 export async function loginToBsky(): Promise<void> {
-  await agent.login({
+  await manager.login({
     identifier: BSKY_USERNAME!,
     password: BSKY_PASSWORD!,
   })
