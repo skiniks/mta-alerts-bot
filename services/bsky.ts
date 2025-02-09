@@ -25,7 +25,7 @@ export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<v
     },
   })
 
-  console.log('New alert posted:', truncatedText)
+  console.info('New alert posted:', truncatedText)
 }
 
 export async function loginToBsky(): Promise<void> {
