@@ -20,7 +20,7 @@ describe('config', () => {
     delete process.env.SUPABASE_URL
     delete process.env.SUPABASE_KEY
 
-    const { API_KEY, ALERT_FEED_URL, BSKY_USERNAME, BSKY_PASSWORD, SUPABASE_URL, SUPABASE_KEY } = await import('../../config/index.js')
+    const { API_KEY, ALERT_FEED_URL, BSKY_USERNAME, BSKY_PASSWORD, SUPABASE_URL, SUPABASE_KEY } = await import('../../src/config/index.js')
 
     expect(API_KEY).toBeUndefined()
     expect(ALERT_FEED_URL).toBeUndefined()
@@ -38,7 +38,7 @@ describe('config', () => {
     process.env.SUPABASE_URL = 'https://supabase.com'
     process.env.SUPABASE_KEY = 'test-key'
 
-    const config = await import('../../config/index.js')
+    const config = await import('../../src/config/index.js')
 
     expect(config.API_KEY).toBe('test-api-key')
     expect(config.ALERT_FEED_URL).toBe('https://api.mta.info')

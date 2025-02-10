@@ -3,13 +3,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mockSupabase } from '../utils/testHelpers.js'
 import { setupConsoleMocks } from '../utils/testSetup.js'
 
-vi.mock('../../utils/supabaseClient', () => ({
+vi.mock('../../src/utils/supabaseClient', () => ({
   supabase: mockSupabase,
 }))
 
 type SupabaseError = PostgrestError | null
 
-const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate } = await import('../../services/database.js')
+const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate } = await import('../../src/services/database.js')
 
 describe('database service', () => {
   const consoleMocks = setupConsoleMocks()

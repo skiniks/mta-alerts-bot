@@ -1,16 +1,16 @@
-import type { AlertEntity } from '../../types/index.js'
+import type { AlertEntity } from '../../src/types/index.js'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mockConfig, setupConsoleMocks } from '../utils/testSetup.js'
 
-vi.mock('../../config', () => mockConfig)
-vi.mock('../../services/bsky', () => ({
+vi.mock('../../src/config', () => mockConfig)
+vi.mock('../../src/services/bsky', () => ({
   postAlertToBsky: vi.fn().mockResolvedValue(undefined),
 }))
-vi.mock('../../services/database', () => ({
+vi.mock('../../src/services/database', () => ({
   isAlertDuplicate: vi.fn().mockResolvedValue(false),
   insertAlertToDb: vi.fn().mockResolvedValue(true),
 }))
-vi.mock('../../utils/alerts', () => ({
+vi.mock('../../src/utils/alerts', () => ({
   formatAlertText: vi.fn().mockImplementation((alert: AlertEntity) => {
     if (!alert.alert?.header_text?.translation?.[0]?.text)
       return null
@@ -27,10 +27,10 @@ vi.mock('../../utils/alerts', () => ({
   }),
 }))
 
-const { fetchAlerts } = await import('../../services/alerts.js')
-const { formatAlertText, isValidAlert } = await import('../../utils/alerts.js')
-const { postAlertToBsky } = await import('../../services/bsky.js')
-const { isAlertDuplicate, insertAlertToDb } = await import('../../services/database.js')
+const { fetchAlerts } = await import('../../src/services/alerts.js')
+const { formatAlertText, isValidAlert } = await import('../../src/utils/alerts.js')
+const { postAlertToBsky } = await import('../../src/services/bsky.js')
+const { isAlertDuplicate, insertAlertToDb } = await import('../../src/services/database.js')
 
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)

@@ -1,26 +1,23 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockConfig, mockSupabaseResponse } from '../utils/testSetup.js'
+import { mockConfig } from '../utils/testSetup.js'
 
-vi.mock('../../config', () => mockConfig)
-vi.mock('../../utils/supabaseClient', () => ({
-  supabase: mockSupabaseResponse,
-}))
-vi.mock('../../services/bsky', () => ({
+vi.mock('../../src/config', () => mockConfig)
+vi.mock('../../src/services/bsky', () => ({
   loginToBsky: vi.fn().mockResolvedValue(undefined),
   postAlertToBsky: vi.fn().mockResolvedValue(undefined),
 }))
-vi.mock('../../services/database', () => ({
+vi.mock('../../src/services/database', () => ({
   isAlertDuplicate: vi.fn(),
   insertAlertToDb: vi.fn(),
   deleteOldAlerts: vi.fn(),
 }))
-vi.mock('../../services/alerts', () => ({
+vi.mock('../../src/services/alerts', () => ({
   fetchAlerts: vi.fn().mockResolvedValue(undefined),
 }))
 
 const handler = await import('../../api/handler.js').then(m => m.default)
-const { loginToBsky } = await import('../../services/bsky.js')
+const { loginToBsky } = await import('../../src/services/bsky.js')
 
 describe('alert Flow Integration', () => {
   beforeEach(() => {

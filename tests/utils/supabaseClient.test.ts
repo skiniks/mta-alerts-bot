@@ -24,7 +24,7 @@ describe('supabase Client', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    supabase = (await import('../../utils/supabaseClient.js')).supabase
+    supabase = (await import('../../src/utils/supabaseClient.js')).supabase
   })
 
   it('should create and export a Supabase client', () => {

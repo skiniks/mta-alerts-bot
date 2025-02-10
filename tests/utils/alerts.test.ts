@@ -1,6 +1,6 @@
-import type { AlertEntity } from '../../types/index.js'
+import type { AlertEntity } from '../../src/types/index.js'
 import { describe, expect, it } from 'vitest'
-import { formatAlertText, isValidAlert } from '../../utils/alerts.js'
+import { formatAlertText, isValidAlert } from '../../src/utils/alerts.js'
 
 describe('alerts utils', () => {
   describe('formatAlertText', () => {

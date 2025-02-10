@@ -16,7 +16,7 @@ vi.mock('@atcute/client', () => {
   }
 })
 
-const { loginToBsky, postAlertToBsky } = await import('../../services/bsky.js')
+const { loginToBsky, postAlertToBsky } = await import('../../src/services/bsky.js')
 
 describe('bsky service', () => {
   beforeEach(() => {
