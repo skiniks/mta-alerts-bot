@@ -1,9 +1,9 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import type { ApiRequest, ApiResponse } from '../src/types/index.js'
 import { fetchAlerts } from '../src/services/alerts.js'
 import { loginToBsky } from '../src/services/bsky.js'
 import { deleteOldAlerts } from '../src/services/database.js'
 
-export default async function handler(_req: VercelRequest, res: VercelResponse): Promise<void> {
+export default async function handler(_req: ApiRequest, res: ApiResponse): Promise<void> {
   try {
     await loginToBsky()
     await fetchAlerts()

@@ -12,8 +12,7 @@
   },
   "dependencies": {
     "@atcute/client": "^2.0.7",
-    "@supabase/supabase-js": "^2.48.1",
-    "@vercel/node": "^5.1.7"
+    "@supabase/supabase-js": "^2.48.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.3.0",
