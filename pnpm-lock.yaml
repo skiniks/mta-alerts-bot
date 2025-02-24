@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@atcute/client':
-        specifier: ^2.0.7
-        version: 2.0.7
+        specifier: ^2.0.8
+        version: 2.0.8
       '@supabase/supabase-js':
         specifier: ^2.48.1
         version: 2.48.1
@@ -92,8 +92,8 @@ packages:
   '@antfu/install-pkg@1.0.0':
     resolution: {integrity: sha512-xvX6P/lo1B3ej0OsaErAjqgFYzYVcJpamjLAFLYh9vRJngBrMoUG7aVnrGTeqM7yxbyTD5p3F2+0/QUEh8Vzhw==}
 
-  '@atcute/client@2.0.7':
-    resolution: {integrity: sha512-bvNahrCGvhZw/EIx0HU/GOoKZEnUaAppbuZh7cu+VsOFA2tdFLnZJed9Hagh5Yz/eUX7QUh5NB4dRTRUdggSLQ==}
+  '@atcute/client@2.0.8':
+    resolution: {integrity: sha512-OTfiWwjB4mOTlp2InGStvoQ+PIA5lvih9cTYU8BvOhzNcCBUpt4l860MKZExHjvQ9Tt1kjq/ED9zRiUjsAgIxw==}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -2369,7 +2369,7 @@ snapshots:
       package-manager-detector: 0.2.9
       tinyexec: 0.3.2
 
-  '@atcute/client@2.0.7': {}
+  '@atcute/client@2.0.8': {}
 
   '@babel/code-frame@7.26.2':
     dependencies:
