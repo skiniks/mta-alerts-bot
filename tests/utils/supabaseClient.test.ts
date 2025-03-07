@@ -1,7 +1,7 @@
-import { createClient } from '@supabase/supabase-js'
+import { PostgrestClient } from '@supabase/postgrest-js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-const mockSupabaseClient = {
+const mockPostgrestClient = {
   from: vi.fn(() => ({
     select: vi.fn(() => ({
       or: vi.fn(),
@@ -13,35 +13,35 @@ const mockSupabaseClient = {
   })),
 }
 
-vi.mock('@supabase/supabase-js', () => ({
-  createClient: vi.fn(() => mockSupabaseClient),
+vi.mock('@supabase/postgrest-js', () => ({
+  PostgrestClient: vi.fn(() => mockPostgrestClient),
 }))
 
 vi.resetModules()
 
-describe('supabase Client', () => {
-  let supabase: any
+describe('postgrest Client', () => {
+  let postgrest: any
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    supabase = (await import('../../src/utils/supabaseClient.js')).supabase
+    postgrest = (await import('../../src/utils/supabaseClient.js')).postgrest
   })
 
-  it('should create and export a Supabase client', () => {
-    expect(createClient).toHaveBeenCalled()
-    expect(supabase).toBe(mockSupabaseClient)
+  it('should create and export a PostgrestClient client', () => {
+    expect(PostgrestClient).toHaveBeenCalled()
+    expect(postgrest).toBe(mockPostgrestClient)
   })
 
   it('should have required methods', () => {
-    expect(supabase.from).toBeDefined()
-    expect(typeof supabase.from).toBe('function')
-    expect(typeof supabase.from('test').select).toBe('function')
-    expect(typeof supabase.from('test').insert).toBe('function')
-    expect(typeof supabase.from('test').delete).toBe('function')
+    expect(postgrest.from).toBeDefined()
+    expect(typeof postgrest.from).toBe('function')
+    expect(typeof postgrest.from('test').select).toBe('function')
+    expect(typeof postgrest.from('test').insert).toBe('function')
+    expect(typeof postgrest.from('test').delete).toBe('function')
   })
 
   it('should handle database operations', () => {
-    const testTable = supabase.from('test')
+    const testTable = postgrest.from('test')
     expect(testTable.select).toBeDefined()
     expect(testTable.insert).toBeDefined()
     expect(testTable.delete).toBeDefined()

@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import type { ApiRequest, ApiResponse } from '../../src/types/index.js'
 import { vi } from 'vitest'
 
 export const mockConfig = {
@@ -63,11 +63,11 @@ export const mockSupabaseResponse = {
   }),
 }
 
-export const mockVercelRequest = {} as VercelRequest
-export const mockVercelResponse = {
+export const mockApiRequest = {} as ApiRequest
+export const mockApiResponse = {
   status: vi.fn().mockReturnThis(),
   send: vi.fn(),
-} as unknown as VercelResponse
+} as unknown as ApiResponse
 
 export function createMockFetchResponse(data: any = mockAlertResponse) {
   return {
@@ -82,8 +82,8 @@ export const mocks = {
   response: mockAlertResponse,
   supabase: mockSupabaseResponse,
   vercel: {
-    request: mockVercelRequest,
-    response: mockVercelResponse,
+    request: mockApiRequest,
+    response: mockApiResponse,
   },
 }
 

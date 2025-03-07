@@ -1,8 +1,8 @@
 import type { FormattedAlert } from '../types/index.js'
-import { supabase } from '../utils/supabaseClient.js'
+import { postgrest } from '../utils/supabaseClient.js'
 
 export async function isAlertDuplicate(alertId: string, headerTranslation: string): Promise<boolean> {
-  const { data, error } = await supabase
+  const { data, error } = await postgrest
     .from('mta_alerts')
     .select('id')
     .or(`alert_id.eq.${alertId},header_translation.eq.${headerTranslation}`)
@@ -16,7 +16,7 @@ export async function isAlertDuplicate(alertId: string, headerTranslation: strin
 }
 
 export async function insertAlertToDb(formattedAlert: FormattedAlert): Promise<boolean> {
-  const { error } = await supabase
+  const { error } = await postgrest
     .from('mta_alerts')
     .insert([{
       alert_id: formattedAlert.id,
@@ -35,7 +35,7 @@ export async function insertAlertToDb(formattedAlert: FormattedAlert): Promise<b
 export async function deleteOldAlerts(): Promise<void> {
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
 
-  const { error } = await supabase
+  const { error } = await postgrest
     .from('mta_alerts')
     .delete()
     .lt('created_at', twentyFourHoursAgo.toISOString())

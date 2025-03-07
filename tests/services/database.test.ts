@@ -1,13 +1,13 @@
-import type { PostgrestError } from '@supabase/supabase-js'
+import type { PostgrestError } from '@supabase/postgrest-js'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockSupabase } from '../utils/testHelpers.js'
+import { mockPostgrest } from '../utils/testHelpers.js'
 import { setupConsoleMocks } from '../utils/testSetup.js'
 
 vi.mock('../../src/utils/supabaseClient', () => ({
-  supabase: mockSupabase,
+  postgrest: mockPostgrest,
 }))
 
-type SupabaseError = PostgrestError | null
+type PostgrestClientError = PostgrestError | null
 
 const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate } = await import('../../src/services/database.js')
 
@@ -26,23 +26,23 @@ describe('database service', () => {
     it('should return false when no duplicates found', async () => {
       const result = await isAlertDuplicate('test-id', 'Test Alert')
       expect(result).toBe(false)
-      expect(mockSupabase.from).toHaveBeenCalledWith('mta_alerts')
+      expect(mockPostgrest.from).toHaveBeenCalledWith('mta_alerts')
     })
 
     it('should return true when error occurs', async () => {
-      mockSupabase.from.mockImplementationOnce(() => ({
+      mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
           or: vi.fn(() => ({
             data: [],
-            error: new Error('Database error') as SupabaseError,
+            error: new Error('Database error') as PostgrestClientError,
           })),
         })),
         insert: vi.fn(() => ({
-          error: null as SupabaseError,
+          error: null as PostgrestClientError,
         })),
         delete: vi.fn(() => ({
           lt: vi.fn(() => ({
-            error: null as SupabaseError,
+            error: null as PostgrestClientError,
           })),
         })),
       }))
@@ -62,23 +62,23 @@ describe('database service', () => {
 
       const result = await insertAlertToDb(alert)
       expect(result).toBe(true)
-      expect(mockSupabase.from).toHaveBeenCalledWith('mta_alerts')
+      expect(mockPostgrest.from).toHaveBeenCalledWith('mta_alerts')
     })
 
     it('should handle connection failures', async () => {
-      mockSupabase.from.mockImplementationOnce(() => ({
+      mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
           or: vi.fn(() => ({
             data: [],
-            error: null as SupabaseError,
+            error: null as PostgrestClientError,
           })),
         })),
         insert: vi.fn(() => ({
-          error: new Error('Connection failed') as SupabaseError,
+          error: new Error('Connection failed') as PostgrestClientError,
         })),
         delete: vi.fn(() => ({
           lt: vi.fn(() => ({
-            error: null as SupabaseError,
+            error: null as PostgrestClientError,
           })),
         })),
       }))
@@ -106,29 +106,29 @@ describe('database service', () => {
       ])
 
       expect(results.every(result => result === true)).toBe(true)
-      expect(mockSupabase.from).toHaveBeenCalledTimes(3)
+      expect(mockPostgrest.from).toHaveBeenCalledTimes(3)
     })
   })
 
   describe('deleteOldAlerts', () => {
     it('should delete alerts older than 24 hours', async () => {
       await deleteOldAlerts()
-      expect(mockSupabase.from).toHaveBeenCalledWith('mta_alerts')
+      expect(mockPostgrest.from).toHaveBeenCalledWith('mta_alerts')
     })
 
     it('should handle database errors during deletion', async () => {
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const expectedError = new Error('Deletion failed')
-      mockSupabase.from.mockImplementationOnce(() => ({
+      mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
           or: vi.fn(() => ({
             data: [],
-            error: null as SupabaseError,
+            error: null as PostgrestClientError,
           })),
         })),
         insert: vi.fn(() => ({
-          error: null as SupabaseError,
+          error: null as PostgrestClientError,
         })),
         delete: vi.fn(() => ({
           lt: vi.fn(() => ({
@@ -139,7 +139,7 @@ describe('database service', () => {
 
       await deleteOldAlerts()
 
-      expect(mockSupabase.from).toHaveBeenCalledWith('mta_alerts')
+      expect(mockPostgrest.from).toHaveBeenCalledWith('mta_alerts')
       expect(errorSpy).toHaveBeenCalledWith(
         'Error deleting old alerts:',
         expectedError,

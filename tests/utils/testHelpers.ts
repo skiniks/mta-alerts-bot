@@ -12,22 +12,22 @@ export const mockAgent = {
   },
 }
 
-type SupabaseError = Error | null
+type PostgrestClientError = Error | null
 
-export const mockSupabase = {
+export const mockPostgrest = {
   from: vi.fn(() => ({
     select: vi.fn(() => ({
       or: vi.fn(() => ({
         data: [],
-        error: null as SupabaseError,
+        error: null as PostgrestClientError,
       })),
     })),
     insert: vi.fn(() => ({
-      error: null as SupabaseError,
+      error: null as PostgrestClientError,
     })),
     delete: vi.fn(() => ({
       lt: vi.fn(() => ({
-        error: null as SupabaseError,
+        error: null as PostgrestClientError,
       })),
     })),
   })),

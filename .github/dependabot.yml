@@ -12,16 +12,15 @@ updates:
         patterns:
           - '@types/*'
           - '@antfu/*'
+          - '@vitest/*'
           - 'eslint*'
+          - jiti
           - typescript
+          - vitest
       production-dependencies:
         patterns:
-          - '@atproto/*'
-          - '@vercel/*'
+          - '@atcute/*'
           - '@supabase/*'
-    ignore:
-      - dependency-name: typescript
-        update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions
     directory: /

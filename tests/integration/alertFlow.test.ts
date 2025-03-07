@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import type { ApiRequest, ApiResponse } from '../../src/types/index.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mockConfig } from '../utils/testSetup.js'
 
@@ -25,11 +25,11 @@ describe('alert Flow Integration', () => {
   })
 
   it('should process an alert through the entire system', async () => {
-    const mockReq = {} as VercelRequest
+    const mockReq = {} as ApiRequest
     const mockRes = {
       status: vi.fn().mockReturnThis(),
       send: vi.fn(),
-    } as unknown as VercelResponse
+    } as unknown as ApiResponse
 
     globalThis.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,

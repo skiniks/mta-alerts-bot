@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
+import type { ApiRequest, ApiResponse } from '../../src/types/index.js'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import handler from '../../api/handler.js'
 
@@ -19,19 +19,19 @@ const { loginToBsky } = await import('../../src/services/bsky.js')
 const { deleteOldAlerts } = await import('../../src/services/database.js')
 
 describe('aPI Handler', () => {
-  let mockReq: VercelRequest
-  let mockRes: VercelResponse
+  let mockReq: ApiRequest
+  let mockRes: ApiResponse
   let consoleErrorSpy: any
 
   beforeEach(() => {
     vi.clearAllMocks()
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-    mockReq = {} as VercelRequest
+    mockReq = {} as ApiRequest
     mockRes = {
       status: vi.fn().mockReturnThis(),
       send: vi.fn(),
-    } as unknown as VercelResponse
+    } as unknown as ApiResponse
   })
 
   afterEach(() => {
