@@ -11,8 +11,8 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@atcute/client": "^2.0.8",
-    "@supabase/postgrest-js": "^1.19.3"
+    "@atcute/client": "^2.0.9",
+    "@supabase/postgrest-js": "^1.19.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.10.1",
