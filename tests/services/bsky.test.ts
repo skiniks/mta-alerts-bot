@@ -6,13 +6,13 @@ const mockManager = {
 }
 
 const mockRpc = {
-  call: vi.fn(),
+  post: vi.fn(),
 }
 
 vi.mock('@atcute/client', () => {
   return {
     CredentialManager: vi.fn().mockImplementation(() => mockManager),
-    XRPC: vi.fn().mockImplementation(() => mockRpc),
+    Client: vi.fn().mockImplementation(() => mockRpc),
   }
 })
 
@@ -37,8 +37,8 @@ describe('bsky service', () => {
 
       await postAlertToBsky(alert)
 
-      expect(mockRpc.call).toHaveBeenCalledWith('com.atproto.repo.createRecord', {
-        data: {
+      expect(mockRpc.post).toHaveBeenCalledWith('com.atproto.repo.createRecord', {
+        input: {
           repo: 'test-did',
           collection: 'app.bsky.feed.post',
           record: {
@@ -62,7 +62,7 @@ describe('bsky service', () => {
     })
 
     it('should handle rate limiting errors', async () => {
-      mockRpc.call.mockRejectedValueOnce(
+      mockRpc.post.mockRejectedValueOnce(
         new Error('Too many requests'),
       )
 
@@ -85,12 +85,12 @@ describe('bsky service', () => {
 
       await postAlertToBsky(alert)
 
-      const callArg = mockRpc.call.mock.calls[0][1]
-      expect(callArg.data.record.text.length).toBe(300)
+      const callArg = mockRpc.post.mock.calls[0][1]
+      expect(callArg.input.record.text.length).toBe(300)
     })
 
     it('should handle authentication failures', async () => {
-      mockRpc.call.mockRejectedValueOnce(
+      mockRpc.post.mockRejectedValueOnce(
         new Error('Authentication failed'),
       )
 

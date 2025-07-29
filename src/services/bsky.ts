@@ -1,11 +1,14 @@
+import type { } from '@atcute/atproto'
+import type { } from '@atcute/bluesky'
 import type { FormattedAlert } from '../types/index.js'
-import { CredentialManager, XRPC } from '@atcute/client'
+
+import { Client, CredentialManager } from '@atcute/client'
 import { BSKY_PASSWORD, BSKY_USERNAME, SERVICE } from '../config/index.js'
 
 const manager = new CredentialManager({
   service: SERVICE!,
 })
-const rpc = new XRPC({ handler: manager })
+const rpc = new Client({ handler: manager })
 
 export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
   if (!manager.session?.did)
@@ -17,8 +20,8 @@ export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<v
     createdAt: new Date().toISOString(),
   }
 
-  await rpc.call('com.atproto.repo.createRecord', {
-    data: {
+  await rpc.post('com.atproto.repo.createRecord', {
+    input: {
       repo: manager.session.did,
       collection: 'app.bsky.feed.post',
       record,
