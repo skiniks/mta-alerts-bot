@@ -11,10 +11,10 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@atcute/atproto": "^3.1.1",
-    "@atcute/bluesky": "^3.2.0",
+    "@atcute/atproto": "^3.1.2",
+    "@atcute/bluesky": "^3.2.1",
     "@atcute/client": "^4.0.3",
-    "@supabase/postgrest-js": "^1.21.1"
+    "@supabase/postgrest-js": "^1.21.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.0.0",
