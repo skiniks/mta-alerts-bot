@@ -17,9 +17,11 @@ type PostgrestClientError = Error | null
 export const mockPostgrest = {
   from: vi.fn(() => ({
     select: vi.fn(() => ({
-      or: vi.fn(() => ({
-        data: [],
-        error: null as PostgrestClientError,
+      ilike: vi.fn(() => ({
+        limit: vi.fn(() => ({
+          data: [],
+          error: null as PostgrestClientError,
+        })),
       })),
     })),
     insert: vi.fn(() => ({

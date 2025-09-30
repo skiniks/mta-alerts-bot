@@ -32,9 +32,11 @@ describe('database service', () => {
     it('should return true when error occurs', async () => {
       mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
-          or: vi.fn(() => ({
-            data: [],
-            error: new Error('Database error') as PostgrestClientError,
+          ilike: vi.fn(() => ({
+            limit: vi.fn(() => ({
+              data: [],
+              error: new Error('Database error') as PostgrestClientError,
+            })),
           })),
         })),
         insert: vi.fn(() => ({
@@ -68,9 +70,11 @@ describe('database service', () => {
     it('should handle connection failures', async () => {
       mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
-          or: vi.fn(() => ({
-            data: [],
-            error: null as PostgrestClientError,
+          ilike: vi.fn(() => ({
+            limit: vi.fn(() => ({
+              data: [],
+              error: null as PostgrestClientError,
+            })),
           })),
         })),
         insert: vi.fn(() => ({
@@ -122,9 +126,11 @@ describe('database service', () => {
       const expectedError = new Error('Deletion failed')
       mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
-          or: vi.fn(() => ({
-            data: [],
-            error: null as PostgrestClientError,
+          ilike: vi.fn(() => ({
+            limit: vi.fn(() => ({
+              data: [],
+              error: null as PostgrestClientError,
+            })),
           })),
         })),
         insert: vi.fn(() => ({

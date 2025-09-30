@@ -5,7 +5,8 @@ export async function isAlertDuplicate(alertId: string, headerTranslation: strin
   const { data, error } = await postgrest
     .from('mta_alerts')
     .select('id')
-    .or(`alert_id.eq.${alertId},header_translation.eq.${headerTranslation}`)
+    .ilike('header_translation', headerTranslation.trim())
+    .limit(1)
 
   if (error) {
     console.error('Error checking for duplicates:', error.message)
