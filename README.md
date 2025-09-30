@@ -14,7 +14,3 @@ MTA_API_URL=your_mta_api_url
 SUPABASE_KEY=your_supabase_key
 SUPABASE_URL=your_supabase_url
 ```
-
-## Deployment
-
-The bot is hosted on Vercel with a cron job scheduled to check for updates every minute, as defined in `vercel.json`.

@@ -1,0 +1,32 @@
+# fly.toml app configuration file generated for mta-alerts-bot on 2025-09-30T14:19:13-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'mta-alerts-bot'
+primary_region = 'yyz'
+
+[build]
+
+[env]
+PORT = '3000'
+
+[http_service]
+internal_port = 3000
+force_https = true
+auto_stop_machines = false
+auto_start_machines = false
+min_machines_running = 1
+max_machines_running = 1
+
+[[http_service.checks]]
+interval = '30s'
+timeout = '5s'
+grace_period = '10s'
+method = 'GET'
+path = '/health'
+
+[compute]
+memory = '256mb'
+cpu_kind = 'shared'
+cpus = 1

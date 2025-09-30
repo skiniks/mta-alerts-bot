@@ -81,10 +81,6 @@ export const mocks = {
   alert: mockAlert,
   response: mockAlertResponse,
   supabase: mockSupabaseResponse,
-  vercel: {
-    request: mockApiRequest,
-    response: mockApiResponse,
-  },
 }
 
 export const utils = {
