@@ -1,6 +1,6 @@
 # MTA Alerts Bluesky Bot
 
-A serverless bot that monitors New York City's subway system through the MTA (Metropolitan Transportation Authority) Realtime Subway Alerts feed and shares updates on Bluesky. The bot fetches service alerts from the NYC subway API once per minute, uses Supabase to prevent duplicate posts, and automatically shares service updates to Bluesky.
+A bot that monitors New York City's subway system through the MTA (Metropolitan Transportation Authority) Realtime Subway Alerts feed and shares updates on Bluesky. The bot fetches service alerts from the NYC subway API once per minute, uses Supabase to prevent duplicate posts, and automatically shares service updates to Bluesky.
 
 ## Configuration
 
