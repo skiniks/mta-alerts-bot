@@ -10,9 +10,23 @@ const mockRpc = {
 }
 
 vi.mock('@atcute/client', () => {
+  class MockCredentialManager {
+    get session() {
+      return mockManager.session
+    }
+
+    set session(value) {
+      mockManager.session = value
+    }
+
+    login = mockManager.login
+  }
+  class MockClient {
+    post = mockRpc.post
+  }
   return {
-    CredentialManager: vi.fn().mockImplementation(() => mockManager),
-    Client: vi.fn().mockImplementation(() => mockRpc),
+    CredentialManager: MockCredentialManager,
+    Client: MockClient,
   }
 })
 

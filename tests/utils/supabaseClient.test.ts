@@ -1,4 +1,3 @@
-import { PostgrestClient } from '@supabase/postgrest-js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockPostgrestClient = {
@@ -13,9 +12,14 @@ const mockPostgrestClient = {
   })),
 }
 
-vi.mock('@supabase/postgrest-js', () => ({
-  PostgrestClient: vi.fn(() => mockPostgrestClient),
-}))
+vi.mock('@supabase/postgrest-js', () => {
+  class MockPostgrestClient {
+    from = mockPostgrestClient.from
+  }
+  return {
+    PostgrestClient: MockPostgrestClient,
+  }
+})
 
 vi.resetModules()
 
@@ -28,8 +32,8 @@ describe('postgrest Client', () => {
   })
 
   it('should create and export a PostgrestClient client', () => {
-    expect(PostgrestClient).toHaveBeenCalled()
-    expect(postgrest).toBe(mockPostgrestClient)
+    expect(postgrest).toBeDefined()
+    expect(postgrest.from).toBe(mockPostgrestClient.from)
   })
 
   it('should have required methods', () => {
