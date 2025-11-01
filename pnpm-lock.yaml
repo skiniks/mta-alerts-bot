@@ -12,8 +12,8 @@ importers:
         specifier: ^3.1.8
         version: 3.1.8
       '@atcute/bluesky':
-        specifier: ^3.2.8
-        version: 3.2.8
+        specifier: ^3.2.9
+        version: 3.2.9
       '@atcute/client':
         specifier: ^4.0.5
         version: 4.0.5
@@ -21,8 +21,8 @@ importers:
         specifier: ^1.19.5
         version: 1.19.5(hono@4.10.3)
       '@supabase/postgrest-js':
-        specifier: ^2.76.1
-        version: 2.76.1
+        specifier: ^2.78.0
+        version: 2.78.0
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -121,8 +121,8 @@ packages:
   '@atcute/atproto@3.1.8':
     resolution: {integrity: sha512-Miu+S7RSgAYbmQWtHJKfSFUN5Kliqoo4YH0rILPmBtfmlZieORJgXNj9oO/Uive0/ulWkiRse07ATIcK8JxMnw==}
 
-  '@atcute/bluesky@3.2.8':
-    resolution: {integrity: sha512-wxEnSOvX7nLH4sVzX9YFCkaNEWIDrTv3pTs6/x4NgJ3AJ3XJio0OYPM8tR7wAgsklY6BHvlAgt3yoCDK0cl1CA==}
+  '@atcute/bluesky@3.2.9':
+    resolution: {integrity: sha512-69+mAnnH/uyMoT3/jHLBNILHa3+dm8utDKbm/2xqSPMLvRK47Wo5COlpchu8Xq+NGisHqukhHYT8NYdQFfSJhA==}
 
   '@atcute/client@4.0.5':
     resolution: {integrity: sha512-R8Qen8goGmEkynYGg2m6XFlVmz0GTDvQ+9w+4QqOob+XMk8/WDpF4aImev7WKEde/rV2gjcqW7zM8E6W9NShDA==}
@@ -629,8 +629,8 @@ packages:
     resolution: {integrity: sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==}
     engines: {node: 4.x || >=6.0.0}
 
-  '@supabase/postgrest-js@2.76.1':
-    resolution: {integrity: sha512-QJ1Cwim6L9gzWKP8U4Lgw9x/4lMWkZSVMDRYFCH+vVGitVbtfU885swTiioOjjUe4EYGZm+Xktg90twzSVv6IA==}
+  '@supabase/postgrest-js@2.78.0':
+    resolution: {integrity: sha512-AwhpYlSvJ+PSnPmIK8sHj7NGDyDENYfQGKrMtpVIEzQA2ApUjgpUGxzXWN4Z0wEtLQsvv7g4y9HVad9Hzo1TNA==}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -2198,7 +2198,7 @@ snapshots:
     dependencies:
       '@atcute/lexicons': 1.2.2
 
-  '@atcute/bluesky@3.2.8':
+  '@atcute/bluesky@3.2.9':
     dependencies:
       '@atcute/atproto': 3.1.8
       '@atcute/lexicons': 1.2.2
@@ -2620,7 +2620,7 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
-  '@supabase/postgrest-js@2.76.1':
+  '@supabase/postgrest-js@2.78.0':
     dependencies:
       '@supabase/node-fetch': 2.6.15
       tslib: 2.8.1
