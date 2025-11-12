@@ -13,23 +13,23 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@atcute/atproto": "^3.1.8",
-    "@atcute/bluesky": "^3.2.8",
+    "@atcute/atproto": "^3.1.9",
+    "@atcute/bluesky": "^3.2.10",
     "@atcute/client": "^4.0.5",
-    "@hono/node-server": "^1.19.5",
-    "@supabase/postgrest-js": "^2.76.1",
+    "@hono/node-server": "^1.19.6",
+    "@supabase/postgrest-js": "^2.81.1",
     "dotenv": "^17.2.3",
-    "hono": "^4.10.3",
+    "hono": "^4.10.5",
     "node-cron": "^4.2.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.0.0",
-    "@types/node": "^24.9.1",
+    "@antfu/eslint-config": "^6.2.0",
+    "@types/node": "^24.10.1",
     "@types/node-cron": "^3.0.11",
-    "@vitest/coverage-v8": "^4.0.3",
-    "eslint": "^9.38.0",
+    "@vitest/coverage-v8": "^4.0.8",
+    "eslint": "^9.39.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.3"
+    "vitest": "^4.0.8"
   }
 }
