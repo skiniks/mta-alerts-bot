@@ -10,6 +10,8 @@ const manager = new CredentialManager({
 })
 const rpc = new Client({ handler: manager })
 
+let isLoggedIn = false
+
 export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
   if (!manager.session?.did)
     throw new Error('Not logged in - no session DID available')
@@ -32,8 +34,15 @@ export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<v
 }
 
 export async function loginToBsky(): Promise<void> {
+  if (isLoggedIn) {
+    return
+  }
+
   await manager.login({
     identifier: BSKY_USERNAME!,
     password: BSKY_PASSWORD!,
   })
+
+  isLoggedIn = true
+  console.log('Successfully logged in to Bluesky')
 }

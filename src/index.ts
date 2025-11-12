@@ -23,7 +23,6 @@ serve({
 
 async function runAlertCheck(): Promise<void> {
   try {
-    await loginToBsky()
     await fetchAlerts()
     await deleteOldAlerts()
   }
@@ -32,10 +31,15 @@ async function runAlertCheck(): Promise<void> {
   }
 }
 
-console.log('Setting up cron job to run every minute...')
-cron.schedule('* * * * *', async () => {
-  console.log(`Running scheduled alert check at ${new Date().toISOString()}`)
-  await runAlertCheck()
+loginToBsky().then(() => {
+  console.log('Setting up cron job to run every minute...')
+  cron.schedule('* * * * *', async () => {
+    console.log(`Running scheduled alert check at ${new Date().toISOString()}`)
+    await runAlertCheck()
+  })
+}).catch((error) => {
+  console.error('Failed to login to Bluesky:', error)
+  process.exit(1)
 })
 
 process.on('SIGTERM', () => {
