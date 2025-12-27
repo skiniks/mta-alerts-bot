@@ -33,13 +33,18 @@ export const mockAlertResponse = {
 export function setupConsoleMocks() {
   const errorSpy = vi.spyOn(console, 'error')
   const warnSpy = vi.spyOn(console, 'warn')
+  const logSpy = vi.spyOn(console, 'log')
 
   return {
+    error: errorSpy,
+    warn: warnSpy,
+    log: logSpy,
     errorSpy,
     warnSpy,
     restore: () => {
       errorSpy.mockRestore()
       warnSpy.mockRestore()
+      logSpy.mockRestore()
     },
   }
 }

@@ -24,7 +24,7 @@ describe('database service', () => {
 
   describe('isAlertDuplicate', () => {
     it('should return false when no duplicates found', async () => {
-      const result = await isAlertDuplicate('test-id', 'Test Alert')
+      const result = await isAlertDuplicate('test-id')
       expect(result).toBe(false)
       expect(mockPostgrest.from).toHaveBeenCalledWith('mta_alerts')
     })
@@ -32,7 +32,7 @@ describe('database service', () => {
     it('should return true when error occurs', async () => {
       mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
-          ilike: vi.fn(() => ({
+          eq: vi.fn(() => ({
             limit: vi.fn(() => ({
               data: [],
               error: new Error('Database error') as PostgrestClientError,
@@ -40,7 +40,9 @@ describe('database service', () => {
           })),
         })),
         insert: vi.fn(() => ({
-          error: null as PostgrestClientError,
+          select: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
         })),
         delete: vi.fn(() => ({
           lt: vi.fn(() => ({
@@ -49,7 +51,7 @@ describe('database service', () => {
         })),
       }))
 
-      const result = await isAlertDuplicate('test-id', 'Test Alert')
+      const result = await isAlertDuplicate('test-id')
       expect(result).toBe(true)
     })
   })
@@ -70,7 +72,7 @@ describe('database service', () => {
     it('should handle connection failures', async () => {
       mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
-          ilike: vi.fn(() => ({
+          eq: vi.fn(() => ({
             limit: vi.fn(() => ({
               data: [],
               error: null as PostgrestClientError,
@@ -78,7 +80,9 @@ describe('database service', () => {
           })),
         })),
         insert: vi.fn(() => ({
-          error: new Error('Connection failed') as PostgrestClientError,
+          select: vi.fn(() => ({
+            error: new Error('Connection failed') as PostgrestClientError,
+          })),
         })),
         delete: vi.fn(() => ({
           lt: vi.fn(() => ({
@@ -112,6 +116,49 @@ describe('database service', () => {
       expect(results.every(result => result === true)).toBe(true)
       expect(mockPostgrest.from).toHaveBeenCalledTimes(3)
     })
+
+    it('should handle race condition with duplicate key error', async () => {
+      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+      const duplicateError = {
+        message: 'duplicate key value violates unique constraint',
+        code: '23505',
+      } as PostgrestClientError
+
+      mockPostgrest.from.mockImplementationOnce(() => ({
+        select: vi.fn(() => ({
+          eq: vi.fn(() => ({
+            limit: vi.fn(() => ({
+              data: [],
+              error: null as PostgrestClientError,
+            })),
+          })),
+        })),
+        insert: vi.fn(() => ({
+          select: vi.fn(() => ({
+            error: duplicateError,
+          })),
+        })),
+        delete: vi.fn(() => ({
+          lt: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
+        })),
+      }))
+
+      const result = await insertAlertToDb({
+        id: 'test-id',
+        text: 'Test Alert',
+        headerTranslation: 'Test Alert',
+      })
+
+      expect(result).toBe(false)
+      expect(logSpy).toHaveBeenCalledWith(
+        'Alert test-id already exists (race condition handled)',
+      )
+
+      logSpy.mockRestore()
+    })
   })
 
   describe('deleteOldAlerts', () => {
@@ -126,7 +173,7 @@ describe('database service', () => {
       const expectedError = new Error('Deletion failed')
       mockPostgrest.from.mockImplementationOnce(() => ({
         select: vi.fn(() => ({
-          ilike: vi.fn(() => ({
+          eq: vi.fn(() => ({
             limit: vi.fn(() => ({
               data: [],
               error: null as PostgrestClientError,
@@ -134,7 +181,9 @@ describe('database service', () => {
           })),
         })),
         insert: vi.fn(() => ({
-          error: null as PostgrestClientError,
+          select: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
         })),
         delete: vi.fn(() => ({
           lt: vi.fn(() => ({

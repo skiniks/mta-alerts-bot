@@ -29,12 +29,13 @@ export async function fetchAlerts(): Promise<void> {
           continue
 
         if (isValidAlert(entity, bufferTimestamp)) {
-          const isDuplicate = await isAlertDuplicate(formattedAlert.id, formattedAlert.headerTranslation)
+          const isDuplicate = await isAlertDuplicate(formattedAlert.id)
           if (!isDuplicate) {
-            await postAlertToBsky(formattedAlert)
             const inserted = await insertAlertToDb(formattedAlert)
-            if (inserted)
+            if (inserted) {
+              await postAlertToBsky(formattedAlert)
               foundNewAlert = true
+            }
           }
         }
       }
