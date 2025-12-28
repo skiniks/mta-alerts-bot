@@ -9,7 +9,7 @@ vi.mock('../../src/utils/supabaseClient', () => ({
 
 type PostgrestClientError = PostgrestError | null
 
-const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate } = await import('../../src/services/database.js')
+const { deleteOldAlerts, insertAlertToDb, isAlertDuplicate, isAlertTextDuplicate } = await import('../../src/services/database.js')
 
 describe('database service', () => {
   const consoleMocks = setupConsoleMocks()
@@ -37,6 +37,12 @@ describe('database service', () => {
               data: [],
               error: new Error('Database error') as PostgrestClientError,
             })),
+            gte: vi.fn(() => ({
+              limit: vi.fn(() => ({
+                data: [],
+                error: null as PostgrestClientError,
+              })),
+            })),
           })),
         })),
         insert: vi.fn(() => ({
@@ -53,6 +59,78 @@ describe('database service', () => {
 
       const result = await isAlertDuplicate('test-id')
       expect(result).toBe(true)
+    })
+  })
+
+  describe('isAlertTextDuplicate', () => {
+    it('should return false when no text duplicates found', async () => {
+      const result = await isAlertTextDuplicate('Test Alert')
+      expect(result).toBe(false)
+      expect(mockPostgrest.from).toHaveBeenCalledWith('mta_alerts')
+    })
+
+    it('should return true when text duplicate exists within last hour', async () => {
+      mockPostgrest.from.mockImplementationOnce(() => ({
+        select: vi.fn(() => ({
+          eq: vi.fn(() => ({
+            limit: vi.fn(() => ({
+              data: [],
+              error: null as PostgrestClientError,
+            })),
+            gte: vi.fn(() => ({
+              limit: vi.fn(() => ({
+                data: [{ id: 1 }],
+                error: null as PostgrestClientError,
+              })),
+            })),
+          })),
+        })),
+        insert: vi.fn(() => ({
+          select: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
+        })),
+        delete: vi.fn(() => ({
+          lt: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
+        })),
+      }))
+
+      const result = await isAlertTextDuplicate('Test Alert')
+      expect(result).toBe(true)
+    })
+
+    it('should return false when error occurs', async () => {
+      mockPostgrest.from.mockImplementationOnce(() => ({
+        select: vi.fn(() => ({
+          eq: vi.fn(() => ({
+            limit: vi.fn(() => ({
+              data: [],
+              error: null as PostgrestClientError,
+            })),
+            gte: vi.fn(() => ({
+              limit: vi.fn(() => ({
+                data: [],
+                error: new Error('Database error') as PostgrestClientError,
+              })),
+            })),
+          })),
+        })),
+        insert: vi.fn(() => ({
+          select: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
+        })),
+        delete: vi.fn(() => ({
+          lt: vi.fn(() => ({
+            error: null as PostgrestClientError,
+          })),
+        })),
+      }))
+
+      const result = await isAlertTextDuplicate('Test Alert')
+      expect(result).toBe(false)
     })
   })
 
@@ -76,6 +154,12 @@ describe('database service', () => {
             limit: vi.fn(() => ({
               data: [],
               error: null as PostgrestClientError,
+            })),
+            gte: vi.fn(() => ({
+              limit: vi.fn(() => ({
+                data: [],
+                error: null as PostgrestClientError,
+              })),
             })),
           })),
         })),
@@ -132,6 +216,12 @@ describe('database service', () => {
               data: [],
               error: null as PostgrestClientError,
             })),
+            gte: vi.fn(() => ({
+              limit: vi.fn(() => ({
+                data: [],
+                error: null as PostgrestClientError,
+              })),
+            })),
           })),
         })),
         insert: vi.fn(() => ({
@@ -177,6 +267,12 @@ describe('database service', () => {
             limit: vi.fn(() => ({
               data: [],
               error: null as PostgrestClientError,
+            })),
+            gte: vi.fn(() => ({
+              limit: vi.fn(() => ({
+                data: [],
+                error: null as PostgrestClientError,
+              })),
             })),
           })),
         })),

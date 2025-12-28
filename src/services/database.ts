@@ -16,6 +16,24 @@ export async function isAlertDuplicate(alertId: string): Promise<boolean> {
   return data.length > 0
 }
 
+export async function isAlertTextDuplicate(headerTranslation: string): Promise<boolean> {
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
+
+  const { data, error } = await postgrest
+    .from('mta_alerts')
+    .select('id')
+    .eq('header_translation', headerTranslation)
+    .gte('created_at', oneHourAgo.toISOString())
+    .limit(1)
+
+  if (error) {
+    console.error('Error checking for text duplicates:', error.message)
+    return false
+  }
+
+  return data.length > 0
+}
+
 export async function insertAlertToDb(formattedAlert: FormattedAlert): Promise<boolean> {
   const { error } = await postgrest
     .from('mta_alerts')

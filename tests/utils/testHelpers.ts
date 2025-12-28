@@ -19,8 +19,14 @@ export const mockPostgrest = {
     select: vi.fn(() => ({
       eq: vi.fn(() => ({
         limit: vi.fn(() => ({
-          data: [],
+          data: [] as any[],
           error: null as PostgrestClientError,
+        })),
+        gte: vi.fn(() => ({
+          limit: vi.fn(() => ({
+            data: [] as any[],
+            error: null as PostgrestClientError,
+          })),
         })),
       })),
     })),

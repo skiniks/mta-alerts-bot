@@ -1,7 +1,7 @@
 import { ALERT_FEED_URL, API_KEY } from '../config/index.js'
 import { formatAlertText, isValidAlert } from '../utils/alerts.js'
 import { postAlertToBsky } from './bsky.js'
-import { insertAlertToDb, isAlertDuplicate } from './database.js'
+import { insertAlertToDb, isAlertDuplicate, isAlertTextDuplicate } from './database.js'
 
 export async function fetchAlerts(): Promise<void> {
   try {
@@ -30,12 +30,20 @@ export async function fetchAlerts(): Promise<void> {
 
         if (isValidAlert(entity, bufferTimestamp)) {
           const isDuplicate = await isAlertDuplicate(formattedAlert.id)
-          if (!isDuplicate) {
+          const isTextDuplicate = await isAlertTextDuplicate(formattedAlert.headerTranslation)
+
+          if (!isDuplicate && !isTextDuplicate) {
             const inserted = await insertAlertToDb(formattedAlert)
             if (inserted) {
               await postAlertToBsky(formattedAlert)
               foundNewAlert = true
             }
+          }
+          else if (isDuplicate) {
+            console.warn(`Skipping duplicate alert ID: ${formattedAlert.id}`)
+          }
+          else if (isTextDuplicate) {
+            console.warn(`Skipping duplicate text (different ID): ${formattedAlert.id}`)
           }
         }
       }

@@ -8,6 +8,7 @@ vi.mock('../../src/services/bsky', () => ({
 }))
 vi.mock('../../src/services/database', () => ({
   isAlertDuplicate: vi.fn().mockResolvedValue(false),
+  isAlertTextDuplicate: vi.fn().mockResolvedValue(false),
   insertAlertToDb: vi.fn().mockResolvedValue(true),
 }))
 vi.mock('../../src/utils/alerts', () => ({
