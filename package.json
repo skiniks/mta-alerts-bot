@@ -13,9 +13,9 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@atcute/atproto": "^3.1.9",
+    "@atcute/atproto": "^3.1.10",
     "@atcute/bluesky": "^3.2.14",
-    "@atcute/client": "^4.1.2",
+    "@atcute/client": "^4.2.0",
     "@hono/node-server": "^1.19.7",
     "@supabase/postgrest-js": "^2.89.0",
     "dotenv": "^17.2.3",
