@@ -12,8 +12,8 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
       '@atcute/bluesky':
-        specifier: ^3.2.14
-        version: 3.2.14
+        specifier: ^3.2.16
+        version: 3.2.16
       '@atcute/client':
         specifier: ^4.2.1
         version: 4.2.1
@@ -21,8 +21,8 @@ importers:
         specifier: ^1.19.9
         version: 1.19.9(hono@4.11.4)
       '@supabase/postgrest-js':
-        specifier: ^2.90.1
-        version: 2.90.1
+        specifier: ^2.93.3
+        version: 2.93.3
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -121,8 +121,8 @@ packages:
   '@atcute/atproto@3.1.10':
     resolution: {integrity: sha512-+GKZpOc0PJcdWMQEkTfg/rSNDAAHxmAUGBl60g2az15etqJn5WaUPNGFE2sB7hKpwi5Ue2h/L0OacINcE/JDDQ==}
 
-  '@atcute/bluesky@3.2.14':
-    resolution: {integrity: sha512-XlVuF55AYIyplmKvlGLlj+cUvk9ggxNRPczkTPIY991xJ4qDxDHpBJ39ekAV4dWcuBoRo2o9JynzpafPu2ljDA==}
+  '@atcute/bluesky@3.2.16':
+    resolution: {integrity: sha512-phFAJNE+SCkIbCcgzjFxntS2KpGvzkLw0JA9qKIXlueF4wNreEt/D5HjnB5eRR9pV1/kcD94II9f7ZAwarf0lQ==}
 
   '@atcute/client@4.2.1':
     resolution: {integrity: sha512-ZBFM2pW075JtgGFu5g7HHZBecrClhlcNH8GVP9Zz1aViWR+cjjBsTpeE63rJs+FCOHFYlirUyo5L8SGZ4kMINw==}
@@ -133,11 +133,20 @@ packages:
   '@atcute/lexicons@1.2.6':
     resolution: {integrity: sha512-s76UQd8D+XmHIzrjD9CJ9SOOeeLPHc+sMmcj7UFakAW/dDFXc579fcRdRfuUKvXBL5v1Gs2VgDdlh/IvvQZAwA==}
 
+  '@atcute/lexicons@1.2.7':
+    resolution: {integrity: sha512-gCvkSMI1F1zx7xXa59iPiSKMH3L5Hga6iurGqQjaQbE2V/np/2QuDqQzt96TNbWfaFAXE9f9oY+0z3ljf/bweA==}
+
   '@atcute/uint8array@1.0.6':
     resolution: {integrity: sha512-ucfRBQc7BFT8n9eCyGOzDHEMKF/nZwhS2pPao4Xtab1ML3HdFYcX2DM1tadCzas85QTGxHe5urnUAAcNKGRi9A==}
 
+  '@atcute/uint8array@1.1.0':
+    resolution: {integrity: sha512-JtHXIVW6LPU9FMWp7SgE4HbUs3uV2WdfkK/2RWdEGjr4EgMV50P3FdU6fPeGlTfDNBJVYMIsuD2wwaKRPV/Aqg==}
+
   '@atcute/util-text@0.0.1':
     resolution: {integrity: sha512-t1KZqvn0AYy+h2KcJyHnKF9aEqfRfMUmyY8j1ELtAEIgqN9CxINAjxnoRCJIFUlvWzb+oY3uElQL/Vyk3yss0g==}
+
+  '@atcute/util-text@1.1.0':
+    resolution: {integrity: sha512-34G9KD5Z9f7oEdFpZOmqrMnU86p8ne6LlxJowfZzKNszRcl1GH+FtEPh3N1woelJT2SkPXMK2anwT8DESTluwA==}
 
   '@babel/helper-string-parser@7.27.1':
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
@@ -152,8 +161,17 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.29.0':
+    resolution: {integrity: sha512-IyDgFV5GeDUVX4YdF/3CPULtVGSXXMLh1xVIgdCgxApktqnQV0r7/8Nqthg+8YLGaAtdyIlo2qIdZrbCv4+7ww==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/types@7.28.6':
     resolution: {integrity: sha512-0ZrskXVEHSWIqZM/sQZ4EV3jZJXRkio/WCxaqKZP1g//CEWEPSfeZFcms4XeKBCHU0ZKnIkdJeU/kF+eRp5lBg==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.29.0':
+    resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
 
   '@badrap/valita@0.4.6':
@@ -642,8 +660,8 @@ packages:
     peerDependencies:
       eslint: '>=9.0.0'
 
-  '@supabase/postgrest-js@2.90.1':
-    resolution: {integrity: sha512-jh6vqzaYzoFn3raaC0hcFt9h+Bt+uxNRBSdc7PfToQeRGk7PDPoweHsbdiPWREtDVTGKfu+PyPW9e2jbK+BCgQ==}
+  '@supabase/postgrest-js@2.93.3':
+    resolution: {integrity: sha512-+iJ96g94skO2e4clsRSmEXg22NUOjh9BziapsJSAvnB1grOBf/BA8vGtCHjNOA+Z6lvKXL1jwBqcL9+fS1W/Lg==}
     engines: {node: '>=20.0.0'}
 
   '@types/chai@5.2.3':
@@ -2157,10 +2175,10 @@ snapshots:
     dependencies:
       '@atcute/lexicons': 1.2.6
 
-  '@atcute/bluesky@3.2.14':
+  '@atcute/bluesky@3.2.16':
     dependencies:
       '@atcute/atproto': 3.1.10
-      '@atcute/lexicons': 1.2.6
+      '@atcute/lexicons': 1.2.7
 
   '@atcute/client@4.2.1':
     dependencies:
@@ -2179,9 +2197,22 @@ snapshots:
       '@standard-schema/spec': 1.1.0
       esm-env: 1.2.2
 
+  '@atcute/lexicons@1.2.7':
+    dependencies:
+      '@atcute/uint8array': 1.1.0
+      '@atcute/util-text': 1.1.0
+      '@standard-schema/spec': 1.1.0
+      esm-env: 1.2.2
+
   '@atcute/uint8array@1.0.6': {}
 
+  '@atcute/uint8array@1.1.0': {}
+
   '@atcute/util-text@0.0.1':
+    dependencies:
+      unicode-segmenter: 0.14.5
+
+  '@atcute/util-text@1.1.0':
     dependencies:
       unicode-segmenter: 0.14.5
 
@@ -2193,7 +2224,16 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.6
 
+  '@babel/parser@7.29.0':
+    dependencies:
+      '@babel/types': 7.29.0
+
   '@babel/types@7.28.6':
+    dependencies:
+      '@babel/helper-string-parser': 7.27.1
+      '@babel/helper-validator-identifier': 7.28.5
+
+  '@babel/types@7.29.0':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
@@ -2584,7 +2624,7 @@ snapshots:
       estraverse: 5.3.0
       picomatch: 4.0.3
 
-  '@supabase/postgrest-js@2.90.1':
+  '@supabase/postgrest-js@2.93.3':
     dependencies:
       tslib: 2.8.1
 
@@ -2784,7 +2824,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.13':
     dependencies:
-      '@babel/parser': 7.28.6
+      '@babel/parser': 7.29.0
       '@vue/shared': 3.5.13
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -2797,7 +2837,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.13':
     dependencies:
-      '@babel/parser': 7.28.6
+      '@babel/parser': 7.29.0
       '@vue/compiler-core': 3.5.13
       '@vue/compiler-dom': 3.5.13
       '@vue/compiler-ssr': 3.5.13
