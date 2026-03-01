@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@atcute/atproto": "^3.1.10",
-    "@atcute/bluesky": "^3.2.16",
+    "@atcute/bluesky": "^3.2.19",
     "@atcute/client": "^4.2.1",
     "@hono/node-server": "^1.19.9",
-    "@supabase/postgrest-js": "^2.93.3",
+    "@supabase/postgrest-js": "^2.98.0",
     "dotenv": "^17.2.3",
     "hono": "^4.11.7",
     "node-cron": "^4.2.1"
