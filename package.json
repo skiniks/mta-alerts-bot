@@ -14,20 +14,20 @@
   },
   "dependencies": {
     "@atcute/atproto": "^3.1.10",
-    "@atcute/bluesky": "^3.2.16",
+    "@atcute/bluesky": "^3.2.20",
     "@atcute/client": "^4.2.1",
-    "@hono/node-server": "^1.19.9",
-    "@supabase/postgrest-js": "^2.93.3",
-    "dotenv": "^17.2.3",
-    "hono": "^4.11.7",
+    "@hono/node-server": "^1.19.11",
+    "@supabase/postgrest-js": "^2.98.0",
+    "dotenv": "^17.3.1",
+    "hono": "^4.12.5",
     "node-cron": "^4.2.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^7.2.0",
-    "@types/node": "^25.2.0",
+    "@antfu/eslint-config": "^7.6.1",
+    "@types/node": "^25.3.5",
     "@types/node-cron": "^3.0.11",
     "@vitest/coverage-v8": "^4.0.18",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
