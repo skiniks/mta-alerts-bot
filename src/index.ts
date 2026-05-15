@@ -15,6 +15,7 @@ app.get('/health', (c) => {
 
 serve({
   fetch: app.fetch,
+  hostname: '0.0.0.0',
   port: PORT,
 }, (info) => {
   console.log(`Server running on port ${info.port}`)
