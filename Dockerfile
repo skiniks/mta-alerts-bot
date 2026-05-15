@@ -1,4 +1,4 @@
-FROM node:22-slim
+FROM node:26-slim
 
 RUN npm install -g pnpm
 
@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install --frozen-lockfile --config.confirmBuilds=false
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
