@@ -9,18 +9,9 @@ updates:
     versioning-strategy: auto
     groups:
       dev-dependencies:
-        patterns:
-          - '@types/*'
-          - '@antfu/*'
-          - '@vitest/*'
-          - 'eslint*'
-          - jiti
-          - typescript
-          - vitest
+        dependency-type: development
       production-dependencies:
-        patterns:
-          - '@atcute/*'
-          - '@supabase/*'
+        dependency-type: production
 
   - package-ecosystem: github-actions
     directory: /
@@ -28,3 +19,10 @@ updates:
       interval: monthly
       day: monday
     open-pull-requests-limit: 10
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+      day: monday
+    open-pull-requests-limit: 5
