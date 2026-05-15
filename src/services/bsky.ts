@@ -2,18 +2,19 @@ import type { } from '@atcute/atproto'
 import type { } from '@atcute/bluesky'
 import type { FormattedAlert } from '../types/index.js'
 
-import { Client, CredentialManager } from '@atcute/client'
+import { Client, ok } from '@atcute/client'
+import { PasswordSession } from '@atcute/password-session'
 import { BSKY_PASSWORD, BSKY_USERNAME, SERVICE } from '../config/index.js'
 
-const manager = new CredentialManager({
-  service: SERVICE!,
-})
-const rpc = new Client({ handler: manager })
-
-let isLoggedIn = false
+let session: PasswordSession | null = null
+let rpc: Client | null = null
 
 export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<void> {
-  if (!manager.session?.did)
+  if (!session || !rpc)
+    throw new Error('Not logged in - no session available')
+
+  const did = session.session?.did
+  if (!did)
     throw new Error('Not logged in - no session DID available')
 
   const truncatedText = formattedAlert.text.slice(0, 300)
@@ -22,27 +23,29 @@ export async function postAlertToBsky(formattedAlert: FormattedAlert): Promise<v
     createdAt: new Date().toISOString(),
   }
 
-  await rpc.post('com.atproto.repo.createRecord', {
+  await ok(rpc.post('com.atproto.repo.createRecord', {
     input: {
-      repo: manager.session.did,
+      repo: did,
       collection: 'app.bsky.feed.post',
       record,
     },
-  })
+  }))
 
   console.info('New alert posted:', truncatedText)
 }
 
 export async function loginToBsky(): Promise<void> {
-  if (isLoggedIn) {
+  if (session) {
     return
   }
 
-  await manager.login({
+  session = await PasswordSession.login({
+    service: SERVICE!,
     identifier: BSKY_USERNAME!,
     password: BSKY_PASSWORD!,
   })
 
-  isLoggedIn = true
+  rpc = new Client({ handler: session })
+
   console.log('Successfully logged in to Bluesky')
 }

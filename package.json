@@ -16,8 +16,9 @@
   },
   "dependencies": {
     "@atcute/atproto": "^4.0.0",
-    "@atcute/bluesky": "^4.0.0",
+    "@atcute/bluesky": "^4.0.1",
     "@atcute/client": "^5.0.0",
+    "@atcute/password-session": "^1.0.0",
     "@hono/node-server": "^2.0.2",
     "@supabase/postgrest-js": "^2.105.4",
     "dotenv": "^17.4.2",

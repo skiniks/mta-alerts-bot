@@ -12,11 +12,14 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@atcute/lexicons@1.3.0)
       '@atcute/bluesky':
-        specifier: ^4.0.0
-        version: 4.0.0(@atcute/lexicons@1.3.0)
+        specifier: ^4.0.1
+        version: 4.0.1(@atcute/lexicons@1.3.0)
       '@atcute/client':
         specifier: ^5.0.0
         version: 5.0.0(@atcute/lexicons@1.3.0)(typescript@6.0.3)
+      '@atcute/password-session':
+        specifier: ^1.0.0
+        version: 1.0.0(@atcute/identity@2.0.0(@atcute/lexicons@1.3.0)(typescript@6.0.3))(@atcute/lexicons@1.3.0)(typescript@6.0.3)
       '@hono/node-server':
         specifier: ^2.0.2
         version: 2.0.2(hono@4.12.18)
@@ -129,8 +132,8 @@ packages:
     peerDependencies:
       '@atcute/lexicons': ^2.0.0
 
-  '@atcute/bluesky@4.0.0':
-    resolution: {integrity: sha512-ShhwOiRILeJdZO7/+S2jFg1lmRvHwobRxHKGoza2ErkxBgtG6NVJ3eBtGUfuyhsmT2dii3ggpPkDhExz6zHdCw==}
+  '@atcute/bluesky@4.0.1':
+    resolution: {integrity: sha512-fuxbAf+HVkwZBtEZbC2LinLG3l6ySiIEtiiAyrTKgR2s+NdpprdhXrTvUkDIhi3yIi9IJq8gel3ne48z5h2MJQ==}
     peerDependencies:
       '@atcute/lexicons': ^2.0.0
 
@@ -146,6 +149,12 @@ packages:
 
   '@atcute/lexicons@1.3.0':
     resolution: {integrity: sha512-Eq5y+9onnCXNVUlNiMf31beSXHKqptB7lUo/68YbhlmxdaR7ooywHmahya9goP5AsmlYEA1z+dRPXIDAa9O7cg==}
+
+  '@atcute/password-session@1.0.0':
+    resolution: {integrity: sha512-yUYkLnYjQMOjKV6jHlE5oBAIDuRn18nTptNjLaF3LrTtsBVEXziwC5ByKkl65MLDHm27iUkzTehB4giqnwQnIA==}
+    peerDependencies:
+      '@atcute/identity': ^2.0.0
+      '@atcute/lexicons': ^2.0.0
 
   '@atcute/uint8array@1.1.2':
     resolution: {integrity: sha512-n+lutnbN9mKzSjSVdfsYfzJ40u2971H+iLSL46D6d7zcrA4delxusf/ftGFvj5oGW03OioaFgQOy3Lqa3JmTeA==}
@@ -2201,7 +2210,7 @@ snapshots:
     dependencies:
       '@atcute/lexicons': 1.3.0
 
-  '@atcute/bluesky@4.0.0(@atcute/lexicons@1.3.0)':
+  '@atcute/bluesky@4.0.1(@atcute/lexicons@1.3.0)':
     dependencies:
       '@atcute/atproto': 4.0.0(@atcute/lexicons@1.3.0)
       '@atcute/lexicons': 1.3.0
@@ -2226,6 +2235,14 @@ snapshots:
       '@atcute/util-text': 1.3.1
       '@standard-schema/spec': 1.1.0
       esm-env: 1.2.2
+
+  '@atcute/password-session@1.0.0(@atcute/identity@2.0.0(@atcute/lexicons@1.3.0)(typescript@6.0.3))(@atcute/lexicons@1.3.0)(typescript@6.0.3)':
+    dependencies:
+      '@atcute/client': 5.0.0(@atcute/lexicons@1.3.0)(typescript@6.0.3)
+      '@atcute/identity': 2.0.0(@atcute/lexicons@1.3.0)(typescript@6.0.3)
+      '@atcute/lexicons': 1.3.0
+    transitivePeerDependencies:
+      - typescript
 
   '@atcute/uint8array@1.1.2': {}
 

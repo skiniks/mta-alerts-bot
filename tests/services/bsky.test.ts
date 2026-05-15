@@ -1,48 +1,50 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-const mockManager = {
-  session: { did: 'test-did' },
-  login: vi.fn(),
+const mockSession = {
+  session: { did: 'test-did' } as { did: string } | null,
 }
 
 const mockRpc = {
-  post: vi.fn(),
+  post: vi.fn().mockResolvedValue({ ok: true, data: {} }),
 }
 
-vi.mock('@atcute/client', () => {
-  class MockCredentialManager {
-    get session() {
-      return mockManager.session
-    }
+const mockLogin = vi.fn().mockResolvedValue(mockSession)
 
-    set session(value) {
-      mockManager.session = value
-    }
-
-    login = mockManager.login
+vi.mock('@atcute/password-session', () => {
+  return {
+    PasswordSession: {
+      login: (...args: any[]) => mockLogin(...args),
+    },
   }
+})
+
+vi.mock('@atcute/client', () => {
   class MockClient {
     post = mockRpc.post
   }
   return {
-    CredentialManager: MockCredentialManager,
     Client: MockClient,
+    ok: (promise: Promise<any>) => promise.then((r: any) => {
+      if (r.ok)
+        return r.data
+      throw new Error(r.data?.message || 'Request failed')
+    }),
   }
 })
-
-const { loginToBsky, postAlertToBsky } = await import('../../src/services/bsky.js')
 
 describe('bsky service', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockSession.session = { did: 'test-did' }
+    mockLogin.mockResolvedValue(mockSession)
   })
 
   describe('postAlertToBsky', () => {
-    beforeEach(() => {
-      mockManager.session = { did: 'test-did' } as { did: string }
-    })
-
     it('should post alert successfully', async () => {
+      vi.resetModules()
+      const { loginToBsky, postAlertToBsky } = await import('../../src/services/bsky.js')
+      await loginToBsky()
+
       const alert = {
         id: 'test-id',
         text: 'Test Alert',
@@ -64,7 +66,8 @@ describe('bsky service', () => {
     })
 
     it('should throw error when not logged in', async () => {
-      mockManager.session = null as unknown as { did: string }
+      vi.resetModules()
+      const { postAlertToBsky } = await import('../../src/services/bsky.js')
 
       const alert = {
         id: 'test-id',
@@ -76,9 +79,11 @@ describe('bsky service', () => {
     })
 
     it('should handle rate limiting errors', async () => {
-      mockRpc.post.mockRejectedValueOnce(
-        new Error('Too many requests'),
-      )
+      vi.resetModules()
+      const { loginToBsky, postAlertToBsky } = await import('../../src/services/bsky.js')
+      await loginToBsky()
+
+      mockRpc.post.mockResolvedValueOnce({ ok: false, data: { error: 'RateLimited', message: 'Too many requests' } })
 
       const alert = {
         id: 'test-id',
@@ -90,6 +95,10 @@ describe('bsky service', () => {
     })
 
     it('should properly truncate long alert texts', async () => {
+      vi.resetModules()
+      const { loginToBsky, postAlertToBsky } = await import('../../src/services/bsky.js')
+      await loginToBsky()
+
       const longText = 'a'.repeat(400)
       const alert = {
         id: 'test-id',
@@ -104,9 +113,11 @@ describe('bsky service', () => {
     })
 
     it('should handle authentication failures', async () => {
-      mockRpc.post.mockRejectedValueOnce(
-        new Error('Authentication failed'),
-      )
+      vi.resetModules()
+      const { loginToBsky, postAlertToBsky } = await import('../../src/services/bsky.js')
+      await loginToBsky()
+
+      mockRpc.post.mockResolvedValueOnce({ ok: false, data: { error: 'AuthFailed', message: 'Authentication failed' } })
 
       const alert = {
         id: 'test-id',
@@ -120,8 +131,10 @@ describe('bsky service', () => {
 
   describe('loginToBsky', () => {
     it('should login successfully', async () => {
+      vi.resetModules()
+      const { loginToBsky } = await import('../../src/services/bsky.js')
       await loginToBsky()
-      expect(mockManager.login).toHaveBeenCalled()
+      expect(mockLogin).toHaveBeenCalled()
     })
   })
 })
