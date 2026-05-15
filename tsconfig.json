@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "rootDir": "src",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
+    "outDir": "dist",
     "skipLibCheck": true
-  }
+  },
+  "include": ["src"]
 }

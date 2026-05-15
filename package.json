@@ -7,8 +7,8 @@
   "author": "Ryan Skinner",
   "license": "MIT",
   "scripts": {
-    "start": "tsx src/index.ts",
-    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest",
@@ -31,7 +31,6 @@
     "@types/node-cron": "^3.0.11",
     "@vitest/coverage-v8": "^4.1.6",
     "eslint": "^10.3.0",
-    "tsx": "^4.22.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.6"
   }
