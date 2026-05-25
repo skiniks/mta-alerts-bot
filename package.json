@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@11.1.2",
+  "packageManager": "pnpm@11.2.2",
   "author": "Ryan Skinner",
   "license": "MIT",
   "scripts": {
@@ -16,22 +16,22 @@
   },
   "dependencies": {
     "@atcute/atproto": "^4.0.0",
-    "@atcute/bluesky": "^4.0.1",
+    "@atcute/bluesky": "^4.0.3",
     "@atcute/client": "^5.0.0",
     "@atcute/password-session": "^1.0.0",
-    "@hono/node-server": "^2.0.2",
-    "@supabase/postgrest-js": "^2.105.4",
+    "@hono/node-server": "^2.0.3",
+    "@supabase/postgrest-js": "^2.106.1",
     "dotenv": "^17.4.2",
-    "hono": "^4.12.18",
+    "hono": "^4.12.22",
     "node-cron": "^4.2.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.0.0",
-    "@types/node": "^25.8.0",
+    "@types/node": "^25.9.1",
     "@types/node-cron": "^3.0.11",
-    "@vitest/coverage-v8": "^4.1.6",
-    "eslint": "^10.3.0",
+    "@vitest/coverage-v8": "^4.1.7",
+    "eslint": "^10.4.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.7"
   }
 }
