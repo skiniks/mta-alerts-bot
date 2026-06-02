@@ -20,7 +20,7 @@
     "@atcute/client": "^5.0.0",
     "@atcute/password-session": "^1.0.0",
     "@hono/node-server": "^2.0.4",
-    "@supabase/postgrest-js": "^2.106.2",
+    "@supabase/postgrest-js": "^2.107.0",
     "dotenv": "^17.4.2",
     "hono": "^4.12.23",
     "node-cron": "^4.2.1"

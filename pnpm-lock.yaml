@@ -24,8 +24,8 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4(hono@4.12.23)
       '@supabase/postgrest-js':
-        specifier: ^2.106.2
-        version: 2.106.2
+        specifier: ^2.107.0
+        version: 2.107.0
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -615,8 +615,8 @@ packages:
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
 
-  '@supabase/postgrest-js@2.106.2':
-    resolution: {integrity: sha512-tDOzyPgp9pIRMR2x6C9+uDSJrnXSzxLtt3d7nC+Lrsy3jnJDHYfdQC/xcRyhJE/TOBJ0heSqRKR3UmejDjZxsw==}
+  '@supabase/postgrest-js@2.107.0':
+    resolution: {integrity: sha512-7ARs47/tyIjX7T0Ive20d4NY8zQYXsP5/P07jJWxffSIM2gpnSnGRnL/Fe15GPbdjsW2sTYeckHcyaoKbM6yWQ==}
     engines: {node: '>=20.0.0'}
 
   '@types/chai@5.2.3':
@@ -2398,7 +2398,7 @@ snapshots:
       estraverse: 5.3.0
       picomatch: 4.0.4
 
-  '@supabase/postgrest-js@2.106.2':
+  '@supabase/postgrest-js@2.107.0':
     dependencies:
       tslib: 2.8.1
 
