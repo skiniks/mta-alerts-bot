@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@atcute/atproto": "^4.0.2",
-    "@atcute/bluesky": "^4.0.7",
+    "@atcute/bluesky": "^4.0.8",
     "@atcute/client": "^5.0.0",
     "@atcute/password-session": "^1.0.0",
     "@hono/node-server": "^2.0.4",
