@@ -14,15 +14,15 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@atcute/atproto": "^4.0.2",
-    "@atcute/bluesky": "^4.0.9",
-    "@atcute/client": "^5.1.0",
-    "@atcute/password-session": "^1.0.0",
-    "@hono/node-server": "^2.0.5",
-    "@supabase/postgrest-js": "^2.108.2",
+    "@atcute/atproto": "^4.0.3",
+    "@atcute/bluesky": "^4.0.12",
+    "@atcute/client": "^5.1.1",
+    "@atcute/password-session": "^1.0.1",
+    "@hono/node-server": "^2.0.6",
+    "@supabase/postgrest-js": "^2.110.0",
     "dotenv": "^17.4.2",
-    "hono": "^4.12.25",
-    "node-cron": "^4.2.1"
+    "hono": "^4.12.27",
+    "node-cron": "^4.5.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.0.0",
