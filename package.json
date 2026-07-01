@@ -25,11 +25,11 @@
     "node-cron": "^4.2.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.0.0",
-    "@types/node": "^25.9.3",
+    "@antfu/eslint-config": "^9.1.0",
+    "@types/node": "^26.0.1",
     "@types/node-cron": "^3.0.11",
     "@vitest/coverage-v8": "^4.1.9",
-    "eslint": "^10.5.0",
+    "eslint": "^10.6.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
   }
